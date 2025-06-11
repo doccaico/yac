@@ -1,6 +1,6 @@
 ## ya_cc
 
-| Key | Action |
+| Role | Header |
 | - | - |
 | Dynamic Array | ds.h |
 
