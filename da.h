@@ -70,7 +70,7 @@
     } while (0)
 
 // Returns the last element from the da. Asserts that the da is not empty.
-#define da_get_last(da) (da)->items[(DA_ASSERT((da)->len > 0 && "da is empty"), (da)->len-1)]
+#define da_get_last(da) (da)->items[(DA_ASSERT((da)->len > 0 && "da->items is empty"), (da)->len-1)]
 
 // Returns the last element from the da, or null if da is empty.
 #define da_get_last_or_null(da) ((da)->len == 0) ? NULL : &(da)->items[(da)->len-1]
