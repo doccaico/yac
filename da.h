@@ -93,7 +93,7 @@
     } while (0)
 
 #define da_resize(da, new_len)      \
-    do {                             \
+    do {                            \
         da_reserve((da), new_len);  \
         (da)->len = (new_len);      \
     } while (0)

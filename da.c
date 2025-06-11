@@ -1,8 +1,9 @@
-// #include <stdint.h>
 #include <stdio.h>
+// #include <stdint.h>
 // #include <stdlib.h>
 
 #include "da.h"
+
 
 typedef struct {
     int* items;
@@ -137,7 +138,7 @@ void test_insert(void)
     // puts("");
     // // 10 1 100 2 3 1000
 
-    // da_insert(&da1, 7, 1000);
+    // da_insert(&da1, 7, 10000);
     // out of range
 
     da_clear_and_free(da1);
