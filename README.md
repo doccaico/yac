@@ -1,5 +1,7 @@
 ## ya_cc
 
+| Key | Action |
+| - | - |
 | Dynamic Array | ds.h |
 
 ### Build and run
