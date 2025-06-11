@@ -1,7 +1,3 @@
-// Ref
-// https://github.com/tsoding/nob.h/blob/main/nob.h
-// https://github.com/saracalihan/rey/blob/main/src/da.h
-
 #ifndef DA_H_
 #define DA_H_
 
