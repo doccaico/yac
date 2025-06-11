@@ -25,6 +25,13 @@
 #include <string.h> // memcpy
 
 
+// Da (Dynamic array) works on any struct with *items, len and capacity fields
+
+// Grow factor of the da.
+#ifndef DA_GROW_FACTOR
+#define DA_GROW_FACTOR 2
+#endif
+
 // Initial capacity of the da.
 #ifndef DA_INIT_CAP
 #define DA_INIT_CAP 8
@@ -38,7 +45,7 @@
                 (da)->capacity = DA_INIT_CAP;                                              \
             }                                                                              \
             while ((expected_capacity) > (da)->capacity) {                                 \
-                (da)->capacity *= 2;                                                       \
+                (da)->capacity *= DA_GROW_FACTOR;                                          \
             }                                                                              \
             (da)->items = DA_REALLOC((da)->items, (da)->capacity * sizeof(*(da)->items));  \
             DA_ASSERT((da)->items != NULL && "could not allocate memory");                 \
@@ -52,8 +59,30 @@
         (da)->items[(da)->len++] = (item);  \
     } while (0)
 
+// Insert item at index i.
+#define da_insert(da, i, item)                             \
+    do {                                                   \
+        DA_ASSERT((i) < (da)->len + 1 && "out of range");  \
+        da_reserve((da), (da)->len + 1);                   \
+        for (size_t _i = (da)->len; _i > (i); --_i) {      \
+            (da)->items[_i] = (da)->items[_i - 1];         \
+        }                                                  \
+        (da)->items[i] = (item);                           \
+        (da)->len += 1;                                    \
+    } while (0)
 
-#define da_free(da) DA_FREE((da).items)
+// Invalidates all element pointers.
+#define da_clear_and_free(da)                                 \
+    do {                                                      \
+        DA_ASSERT((da).items != NULL && "da.items is NULL");  \
+        DA_FREE((da).items);                                  \
+        (da).items = NULL;                                    \
+        (da).len = 0;                                         \
+        (da).capacity = 0;                                    \
+    } while (0)
+
+// Invalidates all element pointers, but retaining capacity.
+#define da_clear_retaining_capacity(da) (da).len = 0
 
 // Append several items to the da.
 #define da_append_many(da, new_items, new_items_len)                                         \
@@ -63,10 +92,10 @@
         (da)->len += (new_items_len);                                                        \
     } while (0)
 
-#define da_resize(da, new_size)      \
+#define da_resize(da, new_len)      \
     do {                             \
-        da_reserve((da), new_size);  \
-        (da)->len = (new_size);      \
+        da_reserve((da), new_len);  \
+        (da)->len = (new_len);      \
     } while (0)
 
 // Returns the last element from the da. Asserts that the da is not empty.
@@ -79,19 +108,18 @@
 // Invalidates element pointers to the removed element, if any.
 #define da_pop(da) (((da)->len == 0) ? NULL : &(da)->items[--((da)->len)])
 
-#define da_remove(da, idx)                                                                                    \
-    do {                                                                                                      \
-        DA_ASSERT((size_t)(idx) < (da)->len && "out of range");                                               \
-        memmove((da)->items + (idx), (da)->items + (idx) + 1, ((da)->len - (idx) - 1)*sizeof(*(da)->items));  \
-        (da)->len--;                                                                                          \
+#define da_remove(da, i)                                                                                \
+    do {                                                                                                \
+        DA_ASSERT((i) < (da)->len && "out of range");                                                   \
+        memmove((da)->items + (i), (da)->items + (i) + 1, ((da)->len - (i) - 1)*sizeof(*(da)->items));  \
+        (da)->len--;                                                                                    \
     } while(0)
 
-
-#define da_remove_unordered(da, i)                  \
-    do {                                            \
-        size_t j = (i);                             \
-        DA_ASSERT(j < (da)->len);                   \
-        (da)->items[j] = (da)->items[--(da)->len];  \
+// Also known as: swap remove
+#define da_remove_unordered(da, i)                     \
+    do {                                               \
+        DA_ASSERT((i) < (da)->len && "out of range");  \
+        (da)->items[i] = (da)->items[--(da)->len];     \
     } while(0)
 
 

@@ -28,8 +28,8 @@ void test_append_many(void)
     assert(da1.items[2] == 10);
     assert(da1.items[3] == 20);
 
-    da_free(da2);
-    da_free(da1);
+    da_clear_and_free(da2);
+    da_clear_and_free(da1);
 }
 
 void test_remove_unordered(void)
@@ -47,7 +47,7 @@ void test_remove_unordered(void)
     // for (size_t i = 0; i < da1.len; ++i)
     //     printf("%d\n", da1.items[i]);
 
-    da_free(da1);
+    da_clear_and_free(da1);
 }
 
 void test_pop(void)
@@ -60,7 +60,7 @@ void test_pop(void)
     p = da_pop(&da1);
     // if (*p == 11) puts("11");
 
-    da_free(da1);
+    da_clear_and_free(da1);
 }
 
 void test_remove(void)
@@ -77,7 +77,7 @@ void test_remove(void)
     // for (size_t i = 0; i < da1.len; ++i)
     //     printf("%d\n", da1.items[i]);
 
-    da_free(da1);
+    da_clear_and_free(da1);
 }
 
 void test_get_last(void)
@@ -92,7 +92,7 @@ void test_get_last(void)
 
     // printf("%d\n", da_get_last(&da1));
 
-    da_free(da1);
+    da_clear_and_free(da1);
 }
 
 void test_get_last_or_null(void)
@@ -108,7 +108,39 @@ void test_get_last_or_null(void)
     p = da_get_last_or_null(&da1);
     // if (*p == 3) puts("3");
 
-    da_free(da1);
+    da_clear_and_free(da1);
+}
+
+void test_insert(void)
+{
+    DaInt da1 = {0};
+
+    da_append(&da1, 1);
+    da_append(&da1, 2);
+    da_append(&da1, 3);
+
+    // da_insert(&da1, 0, 10);
+    // for (size_t i = 0; i < da1.len; ++i)
+    //     printf(" %d", da1.items[i]);
+    // puts("");
+    // // 10 1 2 3
+
+    // da_insert(&da1, 2, 100);
+    // for (size_t i = 0; i < da1.len; ++i)
+    //     printf(" %d", da1.items[i]);
+    // puts("");
+    // // 10 1 100 2 3
+
+    // da_insert(&da1, da1.len, 1000);
+    // for (size_t i = 0; i < da1.len; ++i)
+    //     printf(" %d", da1.items[i]);
+    // puts("");
+    // // 10 1 100 2 3 1000
+
+    // da_insert(&da1, 7, 1000);
+    // out of range
+
+    da_clear_and_free(da1);
 }
 
 int main(void)
@@ -118,6 +150,7 @@ int main(void)
     test_pop();
     test_remove();
     test_get_last();
+    test_insert();
 
     return 0;
 }
