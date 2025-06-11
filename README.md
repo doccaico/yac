@@ -2,11 +2,11 @@
 
 | Role | Header |
 | - | - |
-| Dynamic Array | ds.h |
+| Dynamic Array | da.h |
 
-### Build and run
+### Build and run a test
 ```sh
-$ cl /nologo /std:c11 /W3 da.c && .\da.exe
+$ cl /nologo /std:c11 /W3 da_test.c && .\da_test.exe
 ```
 
 ### Ref
