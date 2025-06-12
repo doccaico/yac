@@ -1,7 +1,7 @@
-#include "da.h"
+#include "yacc_da.h"
 
 #define YACC_SV_IMPLEMENTATION
-#include "sv.h"
+#include "yacc_sv.h"
 
 #define YACC_SB_IMPLEMENTATION
-#include "sb.h"
+#include "yacc_sb.h"
