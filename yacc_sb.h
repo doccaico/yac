@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 #ifndef YACC_SB_API
 #ifdef YACC_SB_STATIC
