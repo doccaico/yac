@@ -1,16 +1,12 @@
-#include <stdio.h>
-// #include <stdint.h>
-// #include <stdlib.h>
+#include <stdio.h> // printf
 
-#include "da.h"
-
+#include "../yacc_da.h"
 
 typedef struct {
     int* items;
     size_t len;
     size_t capacity;
 } DaInt;
-
 
 void test_append_many(void)
 {
@@ -124,19 +120,19 @@ void test_insert(void)
     // for (size_t i = 0; i < da1.len; ++i)
     //     printf(" %d", da1.items[i]);
     // puts("");
-    // // 10 1 2 3
+    // 10 1 2 3
 
     // da_insert(&da1, 2, 100);
     // for (size_t i = 0; i < da1.len; ++i)
     //     printf(" %d", da1.items[i]);
     // puts("");
-    // // 10 1 100 2 3
+    // 10 1 100 2 3
 
     // da_insert(&da1, da1.len, 1000);
     // for (size_t i = 0; i < da1.len; ++i)
     //     printf(" %d", da1.items[i]);
     // puts("");
-    // // 10 1 100 2 3 1000
+    // 10 1 100 2 3 1000
 
     // da_insert(&da1, 7, 10000);
     // out of range

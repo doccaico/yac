@@ -1,18 +1,18 @@
-#ifndef SV_H_
-#define SV_H_
+#ifndef YACC_SV_H_
+#define YACC_SV_H_
 
 #include <assert.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
 
-#ifndef SV_API
-#ifdef SV_STATIC
-#define SV_API static
+#ifndef YACC_SV_API
+#ifdef YACC_SV_STATIC
+#define YACC_SV_API static
 #else
-#define SV_API extern
-#endif // SV_STATIC
-#endif // SV_API
+#define YACC_SV_API extern
+#endif // YACC_SV_STATIC
+#endif // YACC_SV_API
 
 
 // DECLARATIONS
@@ -45,40 +45,40 @@ typedef struct {
 
 #define sv_advance(sv) (++(sv).begin, --(sv).len)
 
-SV_API bool sv_equals(const StringView *lhs, const StringView *rhs);
-SV_API bool sv_equals_icase(const StringView *lhs, const StringView *rhs);
+YACC_SV_API bool sv_equals(const StringView *lhs, const StringView *rhs);
+YACC_SV_API bool sv_equals_icase(const StringView *lhs, const StringView *rhs);
 
-SV_API bool sv_starts_with_cstr(const StringView *sv, const char *start);
-SV_API bool sv_starts_with_cstr_icase(const StringView *sv, const char *start);
-SV_API bool sv_ends_with_cstr(const StringView *sv, const char *end);
-SV_API bool sv_ends_with_cstr_icase(const StringView *sv, const char *end);
+YACC_SV_API bool sv_starts_with_cstr(const StringView *sv, const char *start);
+YACC_SV_API bool sv_starts_with_cstr_icase(const StringView *sv, const char *start);
+YACC_SV_API bool sv_ends_with_cstr(const StringView *sv, const char *end);
+YACC_SV_API bool sv_ends_with_cstr_icase(const StringView *sv, const char *end);
 
-SV_API bool sv_starts_with(const StringView *sv, const StringView *start);
-SV_API bool sv_starts_with_icase(const StringView *sv, const StringView *start);
-SV_API bool sv_ends_with(const StringView *sv, const StringView *end);
-SV_API bool sv_ends_with_icase(const StringView *sv, const StringView *end);
-SV_API void sv_stripl(StringView *sv);
-SV_API void sv_stripr(StringView *sv);
-SV_API void sv_strip(StringView *sv);
+YACC_SV_API bool sv_starts_with(const StringView *sv, const StringView *start);
+YACC_SV_API bool sv_starts_with_icase(const StringView *sv, const StringView *start);
+YACC_SV_API bool sv_ends_with(const StringView *sv, const StringView *end);
+YACC_SV_API bool sv_ends_with_icase(const StringView *sv, const StringView *end);
+YACC_SV_API void sv_stripl(StringView *sv);
+YACC_SV_API void sv_stripr(StringView *sv);
+YACC_SV_API void sv_strip(StringView *sv);
 
-SV_API int sv_index_of(const StringView *sv, int rune);
-SV_API int sv_last_index_of(const StringView *sv, int rune);
-SV_API int sv_index_of_str(const StringView *sv, const char *str);
-SV_API StringView sv_split(StringView *sv, const char *delim);
-SV_API StringView sv_split_exclude_delim(StringView *sv, const char *delim);
+YACC_SV_API int sv_index_of(const StringView *sv, int rune);
+YACC_SV_API int sv_last_index_of(const StringView *sv, int rune);
+YACC_SV_API int sv_index_of_str(const StringView *sv, const char *str);
+YACC_SV_API StringView sv_split(StringView *sv, const char *delim);
+YACC_SV_API StringView sv_split_exclude_delim(StringView *sv, const char *delim);
 
-#endif // SV_H_
+#endif // YACC_SV_H_
 
 
 // IMPLEMENTATION
 
-#ifdef SV_IMPLEMENTATION
+#ifdef YACC_SV_IMPLEMENTATION
 
 #ifdef _MSC_VER
 #define strncasecmp _strnicmp
 #endif
 
-SV_API bool sv_equals(const StringView *lhs, const StringView *rhs)
+YACC_SV_API bool sv_equals(const StringView *lhs, const StringView *rhs)
 {
     assert(NULL != lhs);
     assert(NULL != rhs);
@@ -86,7 +86,7 @@ SV_API bool sv_equals(const StringView *lhs, const StringView *rhs)
     return lhs->len == rhs->len && 0 == strncmp(lhs->begin, rhs->begin, lhs->len);
 }
 
-SV_API bool sv_equals_icase(const StringView *lhs, const StringView *rhs)
+YACC_SV_API bool sv_equals_icase(const StringView *lhs, const StringView *rhs)
 {
     assert(NULL != lhs);
     assert(NULL != rhs);
@@ -94,7 +94,7 @@ SV_API bool sv_equals_icase(const StringView *lhs, const StringView *rhs)
     return lhs->len == rhs->len && 0 == strncasecmp(lhs->begin, rhs->begin, lhs->len);
 }
 
-SV_API bool sv_starts_with_cstr(const StringView *sv, const char *start)
+YACC_SV_API bool sv_starts_with_cstr(const StringView *sv, const char *start)
 {
   assert(NULL != sv);
 
@@ -102,7 +102,7 @@ SV_API bool sv_starts_with_cstr(const StringView *sv, const char *start)
   return sv->len >= start_len && 0 == strncmp(sv->begin, start, start_len);
 }
 
-SV_API bool sv_starts_with_cstr_icase(const StringView *sv, const char *start)
+YACC_SV_API bool sv_starts_with_cstr_icase(const StringView *sv, const char *start)
 {
   assert(NULL != sv);
 
@@ -110,7 +110,7 @@ SV_API bool sv_starts_with_cstr_icase(const StringView *sv, const char *start)
   return sv->len >= start_len && 0 == strncasecmp(sv->begin, start, start_len);
 }
 
-SV_API bool sv_ends_with_cstr(const StringView *sv, const char *end)
+YACC_SV_API bool sv_ends_with_cstr(const StringView *sv, const char *end)
 {
   assert(NULL != sv);
 
@@ -118,7 +118,7 @@ SV_API bool sv_ends_with_cstr(const StringView *sv, const char *end)
   return sv->len >= end_len && 0 == strncmp(sv->begin + sv->len - end_len, end, end_len);
 }
 
-SV_API bool sv_ends_with_cstr_icase(const StringView *sv, const char *end)
+YACC_SV_API bool sv_ends_with_cstr_icase(const StringView *sv, const char *end)
 {
   assert(NULL != sv);
 
@@ -126,7 +126,7 @@ SV_API bool sv_ends_with_cstr_icase(const StringView *sv, const char *end)
   return sv->len >= end_len && 0 == strncasecmp(sv->begin + sv->len - end_len, end, end_len);
 }
 
-SV_API bool sv_starts_with(const StringView *sv, const StringView *start)
+YACC_SV_API bool sv_starts_with(const StringView *sv, const StringView *start)
 {
   assert(NULL != sv);
   assert(NULL != start);
@@ -134,7 +134,7 @@ SV_API bool sv_starts_with(const StringView *sv, const StringView *start)
   return sv->len >= start->len && 0 == strncmp(sv->begin, start->begin, start->len);
 }
 
-SV_API bool sv_starts_with_icase(const StringView *sv, const StringView *start)
+YACC_SV_API bool sv_starts_with_icase(const StringView *sv, const StringView *start)
 {
   assert(NULL != sv);
   assert(NULL != start);
@@ -142,7 +142,7 @@ SV_API bool sv_starts_with_icase(const StringView *sv, const StringView *start)
   return sv->len >= start->len && 0 == strncasecmp(sv->begin, start->begin, start->len);
 }
 
-SV_API bool sv_ends_with(const StringView *sv, const StringView *end)
+YACC_SV_API bool sv_ends_with(const StringView *sv, const StringView *end)
 {
   assert(NULL != sv);
   assert(NULL != end);
@@ -150,7 +150,7 @@ SV_API bool sv_ends_with(const StringView *sv, const StringView *end)
   return sv->len >= end->len && 0 == strncmp(sv->begin + sv->len - end->len, end->begin, end->len);
 }
 
-SV_API bool sv_ends_with_icase(const StringView *sv, const StringView *end)
+YACC_SV_API bool sv_ends_with_icase(const StringView *sv, const StringView *end)
 {
   assert(NULL != sv);
   assert(NULL != end);
@@ -158,7 +158,7 @@ SV_API bool sv_ends_with_icase(const StringView *sv, const StringView *end)
   return sv->len >= end->len && 0 == strncasecmp(sv->begin + sv->len - end->len, end->begin, end->len);
 }
 
-SV_API void sv_stripl(StringView *sv)
+YACC_SV_API void sv_stripl(StringView *sv)
 {
   assert(NULL != sv);
 
@@ -167,7 +167,7 @@ SV_API void sv_stripl(StringView *sv)
   }
 }
 
-SV_API void sv_stripr(StringView *sv)
+YACC_SV_API void sv_stripr(StringView *sv)
 {
   assert(NULL != sv);
 
@@ -176,7 +176,7 @@ SV_API void sv_stripr(StringView *sv)
   }
 }
 
-SV_API void sv_strip(StringView *sv)
+YACC_SV_API void sv_strip(StringView *sv)
 {
   assert(NULL != sv);
 
@@ -184,7 +184,7 @@ SV_API void sv_strip(StringView *sv)
   sv_stripr(sv);
 }
 
-SV_API int sv_index_of(const StringView *sv, int rune)
+YACC_SV_API int sv_index_of(const StringView *sv, int rune)
 {
   assert(NULL != sv);
 
@@ -192,7 +192,7 @@ SV_API int sv_index_of(const StringView *sv, int rune)
   return found == NULL ? -1 : (int)(found - sv->begin);
 }
 
-SV_API int sv_last_index_of(const StringView *sv, int rune)
+YACC_SV_API int sv_last_index_of(const StringView *sv, int rune)
 {
   assert(NULL != sv);
 
@@ -200,7 +200,7 @@ SV_API int sv_last_index_of(const StringView *sv, int rune)
   return found == NULL ? -1 : (int)(found - sv->begin);
 }
 
-SV_API int sv_index_of_str(const StringView *sv, const char *str)
+YACC_SV_API int sv_index_of_str(const StringView *sv, const char *str)
 {
   assert(NULL != sv);
 
@@ -208,7 +208,7 @@ SV_API int sv_index_of_str(const StringView *sv, const char *str)
   return found == NULL ? -1 : (int)(found - sv->begin);
 }
 
-SV_API StringView sv_split(StringView *sv, const char *delim)
+YACC_SV_API StringView sv_split(StringView *sv, const char *delim)
 {
   assert(NULL != sv);
 
@@ -226,7 +226,7 @@ SV_API StringView sv_split(StringView *sv, const char *delim)
   return result;
 }
 
-SV_API StringView sv_split_exclude_delim(StringView *sv, const char *delim)
+YACC_SV_API StringView sv_split_exclude_delim(StringView *sv, const char *delim)
 {
   assert(NULL != sv);
 
@@ -243,4 +243,4 @@ SV_API StringView sv_split_exclude_delim(StringView *sv, const char *delim)
   return result;
 }
 
-#endif // SV_IMPLEMENTATION
+#endif // YACC_SV_IMPLEMENTATION

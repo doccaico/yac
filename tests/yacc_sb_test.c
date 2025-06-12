@@ -1,14 +1,12 @@
-#include <stdio.h>
+#include <stdio.h> // printf
 
-#define DA_IMPLEMENTATION
-#include "da.h"
+#include "../yacc_da.h"
 
-#define SV_IMPLEMENTATION
-#include "sv.h"
+#define YACC_SV_IMPLEMENTATION
+#include "../yacc_sv.h"
 
-#define SB_IMPLEMENTATION
-#include "sb.h"
-
+#define YACC_SB_IMPLEMENTATION
+#include "../yacc_sb.h"
 
 void test_sb_expand_buffer(void)
 {
@@ -125,7 +123,7 @@ void test_sb_appendf(void)
     StringBuilder sb1 = sb_create(0);
     sb_appendf(&sb1, "%s %s %s", "Rust", "and", "Go");
 
-    printf(sb_farg "\n", sb_expand(sb1));
+    // printf(sb_farg "\n", sb_expand(sb1));
     // "Rust and Go"
 
     sb_clear_and_free(sb1);

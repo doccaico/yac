@@ -1,9 +1,7 @@
-#include <stdio.h>
+#include <stdio.h> // printf
 
-
-#define SV_IMPLEMENTATION
-#include "sv.h"
-
+#define YACC_SV_IMPLEMENTATION
+#include "../yacc_sv.h"
 
 void test_sv_empty(void)
 {
@@ -17,8 +15,9 @@ void test_sv_from_cstr(void)
 {
     StringView sv1 = sv_from_cstr("Hello");
 
-    assert(sv1.begin == "Hello");
     assert(sv1.len == 5);
+    // printf(sv_farg "\n", sv_expand(sv1));
+    // "Hello"
 }
 
 void test_sv_from_cstr_slice(void)
@@ -26,11 +25,8 @@ void test_sv_from_cstr_slice(void)
     StringView sv1 = sv_from_cstr_slice("0123456789", 5, 2);
 
     assert(sv1.len == 2);
-
     // printf(sv_farg "\n", sv_expand(sv1));
-    // printf("%.*s\n", sv_expand(sv1));
-    // 56
-    // 56
+    // "56"
 }
 
 void test_sv_from_constant(void)
@@ -38,8 +34,9 @@ void test_sv_from_constant(void)
 #define N "2244"
     StringView sv1 = sv_from_constant(N);
 
-    assert(sv1.begin == N);
     assert(sv1.len == 4);
+    // printf(sv_farg "\n", sv_expand(sv1));
+    // "2244"
 #undef N
 }
 

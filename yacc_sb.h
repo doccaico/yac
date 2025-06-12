@@ -1,16 +1,16 @@
-#ifndef SB_H_
-#define SB_H_
+#ifndef YACC_SB_H_
+#define YACC_SB_H_
 
 #include <assert.h>
 #include <stdarg.h>
 
-#ifndef SB_API
-#ifdef SB_STATIC
-#define SB_API static
+#ifndef YACC_SB_API
+#ifdef YACC_SB_STATIC
+#define YACC_SB_API static
 #else
-#define SB_API extern
-#endif // SB_STATIC
-#endif // SB_API
+#define YACC_SB_API extern
+#endif // YACC_SB_STATIC
+#endif // YACC_SB_API
 
 
 // DECLARATIONS
@@ -35,62 +35,62 @@ typedef struct {
 
 #define sb_expand(sb) (int)(sb).len, (sb).items
 
-SB_API StringBuilder sb_create(size_t capacity);
-SB_API StringBuilder sb_clone(const StringBuilder *sb);
-SB_API void sb_append_rune(StringBuilder *sb, int rune);
-SB_API void sb_append_sv(StringBuilder *sb, const StringView *sv);
-SB_API void sb_append_cstr(StringBuilder *sb, const char *cstr);
-SB_API void sb_append_sb(StringBuilder *dest, const StringBuilder *src);
-SB_API void sb_appendf(StringBuilder *sb, const char *fmt, ...);
+YACC_SB_API StringBuilder sb_create(size_t capacity);
+YACC_SB_API StringBuilder sb_clone(const StringBuilder *sb);
+YACC_SB_API void sb_append_rune(StringBuilder *sb, int rune);
+YACC_SB_API void sb_append_sv(StringBuilder *sb, const StringView *sv);
+YACC_SB_API void sb_append_cstr(StringBuilder *sb, const char *cstr);
+YACC_SB_API void sb_append_sb(StringBuilder *dest, const StringBuilder *src);
+YACC_SB_API void sb_appendf(StringBuilder *sb, const char *fmt, ...);
 
 // for COW String
 #define sb_append_str(sb_ptr, str_ptr) sb_append_sb((sb_ptr), &(str_ptr)->h->b)
 
-SB_API char *sb_get_cstr(StringBuilder *sb);
+YACC_SB_API char *sb_get_cstr(StringBuilder *sb);
 
 
-#endif // SB_H_
+#endif // YACC_SB_H_
 
 
 // IMPLEMENTATION
 
-#ifdef SB_IMPLEMENTATION
+#ifdef YACC_SB_IMPLEMENTATION
 
-SB_API StringBuilder sb_create(size_t capacity)
+YACC_SB_API StringBuilder sb_create(size_t capacity)
 {
   StringBuilder sb = {0};
   da_reserve(&sb, capacity);
   return sb;
 }
 
-SB_API StringBuilder sb_clone(const StringBuilder *sb)
+YACC_SB_API StringBuilder sb_clone(const StringBuilder *sb)
 {
   StringBuilder clone = sb_create(sb->len);
   memcpy(clone.items, sb->items, sb->len);
   return clone;
 }
 
-SB_API void sb_append_rune(StringBuilder *sb, int rune)
+YACC_SB_API void sb_append_rune(StringBuilder *sb, int rune)
 {
   assert(rune >= -128 && rune <= 127);
 
   da_append(sb, (char)rune);
 }
 
-SB_API void sb_append_sv(StringBuilder *sb, const StringView *sv)
+YACC_SB_API void sb_append_sv(StringBuilder *sb, const StringView *sv)
 {
   for (size_t i = 0; i < sv->len; ++i) {
     sb_append_rune(sb, sv->begin[i]);
   }
 }
 
-SB_API void sb_append_cstr(StringBuilder *sb, const char *cstr)
+YACC_SB_API void sb_append_cstr(StringBuilder *sb, const char *cstr)
 {
   StringView sv = sv_from_cstr(cstr);
   sb_append_sv(sb, &sv);
 }
 
-SB_API void sb_append_sb(StringBuilder *dest, const StringBuilder *src)
+YACC_SB_API void sb_append_sb(StringBuilder *dest, const StringBuilder *src)
 {
   size_t new_capacity = dest->len + src->len;
   if (dest->capacity < new_capacity) {
@@ -101,7 +101,7 @@ SB_API void sb_append_sb(StringBuilder *dest, const StringBuilder *src)
   dest->len = new_capacity;
 }
 
-SB_API char *sb_get_cstr(StringBuilder *sb)
+YACC_SB_API char *sb_get_cstr(StringBuilder *sb)
 {
   if ('\0' != sb->items[sb->len])
     da_append(sb, '\0');
@@ -109,7 +109,7 @@ SB_API char *sb_get_cstr(StringBuilder *sb)
   return sb->items;
 }
 
-SB_API void sb_appendf(StringBuilder *sb, const char *fmt, ...)
+YACC_SB_API void sb_appendf(StringBuilder *sb, const char *fmt, ...)
 {
   assert(NULL != sb);
 
@@ -126,4 +126,4 @@ SB_API void sb_appendf(StringBuilder *sb, const char *fmt, ...)
 }
 
 
-#endif // SB_IMPLEMENTATION
+#endif // YACC_SB_IMPLEMENTATION

@@ -1,15 +1,18 @@
-## ya_cc
+## YACC
 
 | Role | Header |
 | - | - |
-| Dynamic Array | [da.h](/da.h) |
-| String View | [sv.h](/sv.h) |
-| String Builder | [sb.h](/sb.h) |
+| Dynamic Array | [yacc_da.h](/yacc_da.h) |
+| String View | [yacc_sv.h](/yacc_sv.h) |
+| String Builder | [yacc_sb.h](/yacc_sb.h) |
 
-### Build and run a test
+### Testing
 ```sh
-# da.h (/GF = eliminate duplicate strings)
-$ cl.exe /nologo /std:c11 /GF /W3 da_test.c && .\da_test.exe
+# yacc_da.h (/GF = eliminate duplicate strings)
+
+$ cd tests
+
+$ cl.exe /nologo /std:c11 /GF /W4 /WX yacc_da_test.c && .\yacc_da_test.exe
 ```
 
 ### Ref
