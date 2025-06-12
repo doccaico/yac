@@ -4,6 +4,7 @@
 | - | - |
 | Dynamic Array | [da.h](/da.h) |
 | String View | [sv.h](/sv.h) |
+| String Builder | [sb.h](/sv.h) |
 
 ### Build and run a test
 ```sh

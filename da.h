@@ -92,11 +92,11 @@
         (da)->len += (new_items_len);                                                        \
     } while (0)
 
-#define da_resize(da, new_len)      \
-    do {                            \
-        da_reserve((da), new_len);  \
-        (da)->len = (new_len);      \
-    } while (0)
+// #define da_resize(da, new_len)      \
+//     do {                            \
+//         da_reserve((da), new_len);  \
+//         (da)->len = (new_len);      \
+//     } while (0)
 
 // Returns the last element from the da. Asserts that the da is not empty.
 #define da_get_last(da) (da)->items[(DA_ASSERT((da)->len > 0 && "da->items is empty"), (da)->len-1)]
