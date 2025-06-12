@@ -3,10 +3,12 @@
 | Role | Header |
 | - | - |
 | Dynamic Array | da.h |
+| String View | sv.h |
 
 ### Build and run a test
 ```sh
-$ cl /nologo /std:c11 /W3 da_test.c && .\da_test.exe
+# da.h (/GF = eliminate duplicate strings)
+$ cl.exe /nologo /std:c11 /GF /W3 da_test.c && .\da_test.exe
 ```
 
 ### Ref
