@@ -2,8 +2,8 @@
 
 | Role | Header |
 | - | - |
-| Dynamic Array | da.h |
-| String View | sv.h |
+| Dynamic Array | [da.h](/da.h) |
+| String View | [sv.h](/sv.h) |
 
 ### Build and run a test
 ```sh
