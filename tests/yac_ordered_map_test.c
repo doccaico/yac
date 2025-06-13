@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define YAC_ORDERED_MAP_IMPLEMENTATION
-#include "../yacc_map.h"
+#include "../yac_ordered_map.h"
 
 void test_ordered_map_init_and_deinit(void)
 {

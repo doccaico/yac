@@ -1,19 +1,19 @@
-## YACC
+## YAC
 
 | Role | Header |
 | - | - |
-| Dynamic Array | [yacc_da.h](/yacc_da.h) |
-| Map (Ordered) | [yacc_map.h](/yacc_map.h) |
-| String View | [yacc_sv.h](/yacc_sv.h) |
-| String Builder | [yacc_sb.h](/yacc_sb.h) |
+| Dynamic Array | [yac_da.h](/yac_da.h) |
+| Map (Ordered) | [yac_map.h](/yac_map.h) |
+| String View | [yac_sv.h](/yac_sv.h) |
+| String Builder | [yac_sb.h](/yac_sb.h) |
 
 ### Testing
 ```sh
-# yacc_da.h (/GF = eliminate duplicate strings)
+# yac_da.h (/GF = eliminate duplicate strings)
 
 $ cd tests
 
-$ cl.exe /nologo /std:c11 /GF /W4 /WX yacc_da_test.c && .\yacc_da_test.exe
+$ cl.exe /nologo /std:c11 /GF /W4 /WX yac_da_test.c && .\yac_da_test.exe
 ```
 
 ### Ref
