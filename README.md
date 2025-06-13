@@ -13,7 +13,7 @@
 
 $ cd tests
 
-$ cl.exe /nologo /std:c11 /GF /W4 /WX yac_da_test.c && .\yac_da_test.exe
+$ cl.exe /nologo /std:c11 /GF /W4 /WX -wd4709 yac_da_test.c && .\yac_da_test.exe
 ```
 
 ### Ref
