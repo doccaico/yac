@@ -25,9 +25,15 @@ void test_map_put_and_get(void)
         map->put(map, (void*)(int*)1, (void*)(int*)10);
         map->put(map, (void*)(int*)2, (void*)(int*)20);
         map->put(map, (void*)(int*)3, (void*)(int*)30);
+        assert(map->size(map) == 3);
 
         int* val = (int*)map->get(map, (void*)(int*)2);
         assert((int*)val == (int*)20);
+
+        map->put(map, (void*)(int*)2, (void*)(int*)9000);
+        assert(map->size(map) == 3);
+        val = (int*)map->get(map, (void*)(int*)2);
+        assert((int*)val == (int*)9000);
 
         TreeMapDeinit(map);
     }
@@ -199,6 +205,69 @@ void test_map_iterator(void)
     TreeMapDeinit(map);
 }
 
+void test_map_default_compare(void)
+{
+    TreeMap* map;
+
+    map = TreeMapInit();
+
+    map->put(map, (void*)(int*)3, (void*)(int*)30);
+    map->put(map, (void*)(int*)1, (void*)(int*)10);
+    map->put(map, (void*)(int*)2, (void*)(int*)20);
+    assert(map->size(map) == 3);
+
+    int expected = 0;
+    map->first(map);
+    for (Pair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+        expected += 10;
+        assert((unsigned long long)(int*)pair->value == expected);
+    }
+
+    TreeMapDeinit(map);
+}
+
+int compare_key(void* lhs, void* rhs)
+{
+    return strcmp((char*)lhs, (char*)rhs);
+}
+
+void clean_key(void* key)
+{
+    (void)key;
+    // puts("clean key");
+}
+
+void clean_value(void* value)
+{
+    (void)value;
+    // puts("clean value");
+}
+
+void test_map_compare_and_clean(void)
+{
+    TreeMap* map;
+
+    map = TreeMapInit();
+    map->set_compare(map, compare_key);
+    map->set_clean_key(map, clean_key);
+    map->set_clean_value(map, clean_value);
+
+    map->put(map, (void*)(char*)"c", (void*)(int*)30);
+    map->put(map, (void*)(char*)"a", (void*)(int*)10);
+    map->put(map, (void*)(char*)"b", (void*)(int*)20);
+
+    assert(map->size(map) == 3);
+
+    int expected = 0;
+    map->first(map);
+    for (Pair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+        expected += 10;
+        assert((unsigned long long)(int*)pair->value == expected);
+    }
+
+    TreeMapDeinit(map);
+}
+
 int main(void)
 {
     test_map_init_and_deinit();
@@ -208,6 +277,8 @@ int main(void)
     test_map_minimum_and_maximum();
     test_map_predecessor_and_successor();
     test_map_iterator();
+    test_map_default_compare();
+    test_map_compare_and_clean();
 
     return 0;
 }
