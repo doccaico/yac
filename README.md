@@ -3,6 +3,7 @@
 | Role | Header |
 | - | - |
 | Dynamic Array | [yacc_da.h](/yacc_da.h) |
+| Map (Ordered) | [yacc_map.h](/yacc_map.h) |
 | String View | [yacc_sv.h](/yacc_sv.h) |
 | String Builder | [yacc_sb.h](/yacc_sb.h) |
 
