@@ -2,25 +2,25 @@
 #include <stdio.h>
 #include <string.h>
 
-#define YACC_MAP_IMPLEMENTATION
+#define YAC_ORDERED_MAP_IMPLEMENTATION
 #include "../yacc_map.h"
 
-void test_map_init_and_deinit(void)
+void test_ordered_map_init_and_deinit(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
     assert(map != NULL);
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
-void test_map_put_and_get(void)
+void test_ordered_map_put_and_get(void)
 {
     {
         // KEY = int, VALUE = int
-        TreeMap* map;
+        YacOrderedMap* map;
 
-        map = TreeMapInit();
+        map = YacOrderedMapInit();
 
         map->put(map, (void*)(int*)1, (void*)(int*)10);
         map->put(map, (void*)(int*)2, (void*)(int*)20);
@@ -35,13 +35,13 @@ void test_map_put_and_get(void)
         val = (int*)map->get(map, (void*)(int*)2);
         assert((int*)val == (int*)9000);
 
-        TreeMapDeinit(map);
+        YacOrderedMapDeinit(map);
     }
     {
         // KEY = char*, VALUE = int
-        TreeMap* map;
+        YacOrderedMap* map;
 
-        map = TreeMapInit();
+        map = YacOrderedMapInit();
 
         map->put(map, (void*)(char*)"1", (void*)(int*)10);
         map->put(map, (void*)(char*)"2", (void*)(int*)20);
@@ -50,7 +50,7 @@ void test_map_put_and_get(void)
         int* val = (int*)map->get(map, (void*)(char*)"2");
         assert((int*)val == (int*)20);
 
-        TreeMapDeinit(map);
+        YacOrderedMapDeinit(map);
     }
     {
         // KEY = char*, VALUE = Point
@@ -59,9 +59,9 @@ void test_map_put_and_get(void)
             int y;
         } Point;
 
-        TreeMap* map;
+        YacOrderedMap* map;
 
-        map = TreeMapInit();
+        map = YacOrderedMapInit();
 
         map->put(map, (void*)(char*)"1", (void*)(Point*)&(Point){11, 111});
         map->put(map, (void*)(char*)"2", (void*)(Point*)&(Point){22, 222});
@@ -71,15 +71,15 @@ void test_map_put_and_get(void)
         assert(((Point*)val)->x == 22);
         assert(((Point*)val)->y == 222);
 
-        TreeMapDeinit(map);
+        YacOrderedMapDeinit(map);
     }
 }
 
-void test_map_find(void)
+void test_ordered_map_find(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
 
     map->put(map, (void*)(char*)"1", (void*)(int*)10);
     map->put(map, (void*)(char*)"2", (void*)(int*)20);
@@ -91,14 +91,14 @@ void test_map_find(void)
     found = map->find(map, (void*)(char*)"9999");
     assert(!found);
 
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
-void test_map_remove(void)
+void test_ordered_map_remove(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
 
     map->put(map, (void*)(char*)"1", (void*)(int*)10);
     map->put(map, (void*)(char*)"2", (void*)(int*)20);
@@ -117,14 +117,14 @@ void test_map_remove(void)
 
     assert(map->size(map) == 2);
 
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
-void test_map_minimum_and_maximum(void)
+void test_ordered_map_minimum_and_maximum(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
 
     map->put(map, (void*)(char*)"1", (void*)(int*)10);
     map->put(map, (void*)(char*)"2", (void*)(int*)20);
@@ -132,22 +132,22 @@ void test_map_minimum_and_maximum(void)
 
     assert(map->size(map) == 3);
 
-    Pair* pair_min = map->minimum(map);
+    OrderedMapPair* pair_min = map->minimum(map);
     assert(strcmp((char*)(void*)pair_min->key, "1") == 0);
     assert((int*)(void*)pair_min->value == (int*)10);
 
-    Pair* pair_max = map->maximum(map);
+    OrderedMapPair* pair_max = map->maximum(map);
     assert(strcmp((char*)(void*)pair_max->key, "3") == 0);
     assert((int*)(void*)pair_max->value == (int*)30);
 
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
-void test_map_predecessor_and_successor(void)
+void test_ordered_map_predecessor_and_successor(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
 
     map->put(map, (void*)(char*)"1", (void*)(int*)10);
     map->put(map, (void*)(char*)"2", (void*)(int*)20);
@@ -155,22 +155,22 @@ void test_map_predecessor_and_successor(void)
 
     assert(map->size(map) == 3);
 
-    Pair* pair_pre = map->predecessor(map, (void*)(char*)"2");
+    OrderedMapPair* pair_pre = map->predecessor(map, (void*)(char*)"2");
     assert(strcmp((char*)(void*)pair_pre->key, "1") == 0);
     assert((int*)(void*)pair_pre->value == (int*)10);
 
-    Pair* pair_max = map->successor(map, (void*)(char*)"2");
+    OrderedMapPair* pair_max = map->successor(map, (void*)(char*)"2");
     assert(strcmp((char*)(void*)pair_max->key, "3") == 0);
     assert((int*)(void*)pair_max->value == (int*)30);
 
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
-void test_map_iterator(void)
+void test_ordered_map_iterator(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
 
     map->put(map, (void*)(char*)"1", (void*)(int*)10);
     map->put(map, (void*)(char*)"2", (void*)(int*)20);
@@ -179,13 +179,13 @@ void test_map_iterator(void)
     // for loop
     int expected = 0;
     map->first(map);
-    for (Pair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+    for (OrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
         expected += 10;
         assert((unsigned long long)(int*)pair->value == expected);
     }
 
     // while loop
-    Pair *pair = NULL;
+    OrderedMapPair *pair = NULL;
     expected = 0;
     map->first(map);
     while ((pair = map->next(map)) != NULL) {
@@ -202,14 +202,14 @@ void test_map_iterator(void)
         expected -= 10;
     }
 
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
-void test_map_default_compare(void)
+void test_ordered_map_default_compare(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
 
     map->put(map, (void*)(int*)3, (void*)(int*)30);
     map->put(map, (void*)(int*)1, (void*)(int*)10);
@@ -218,12 +218,12 @@ void test_map_default_compare(void)
 
     int expected = 0;
     map->first(map);
-    for (Pair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+    for (OrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
         expected += 10;
         assert((unsigned long long)(int*)pair->value == expected);
     }
 
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
 int compare_key(void* lhs, void* rhs)
@@ -243,11 +243,11 @@ void clean_value(void* value)
     // puts("clean value");
 }
 
-void test_map_compare_and_clean(void)
+void test_ordered_map_compare_and_clean(void)
 {
-    TreeMap* map;
+    YacOrderedMap* map;
 
-    map = TreeMapInit();
+    map = YacOrderedMapInit();
     map->set_compare(map, compare_key);
     map->set_clean_key(map, clean_key);
     map->set_clean_value(map, clean_value);
@@ -260,25 +260,25 @@ void test_map_compare_and_clean(void)
 
     int expected = 0;
     map->first(map);
-    for (Pair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+    for (OrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
         expected += 10;
         assert((unsigned long long)(int*)pair->value == expected);
     }
 
-    TreeMapDeinit(map);
+    YacOrderedMapDeinit(map);
 }
 
 int main(void)
 {
-    test_map_init_and_deinit();
-    test_map_put_and_get();
-    test_map_find();
-    test_map_remove();
-    test_map_minimum_and_maximum();
-    test_map_predecessor_and_successor();
-    test_map_iterator();
-    test_map_default_compare();
-    test_map_compare_and_clean();
+    test_ordered_map_init_and_deinit();
+    test_ordered_map_put_and_get();
+    test_ordered_map_find();
+    test_ordered_map_remove();
+    test_ordered_map_minimum_and_maximum();
+    test_ordered_map_predecessor_and_successor();
+    test_ordered_map_iterator();
+    test_ordered_map_default_compare();
+    test_ordered_map_compare_and_clean();
 
     return 0;
 }
