@@ -93,8 +93,6 @@
 // Returns the last element from the da. Asserts that the da is not empty.
 #define YacDynamicArrayGetLast(da) \
     (da)->items[(YAC_DYNAMIC_ARRAY_ASSERT((da)->len > 0 && "da->items is empty"), (da)->len-1)]
-// #define YacDynamicArrayGetLast(da) \
-//    YAC_DYNAMIC_ARRAY_ASSERT((da)->len > 0 && "da->items is empty"), (da)->items[((da)->len-1)]
 
 // Returns the last element from the da, or null if da is empty.
 #define YacDynamicArraygetLastOrNull(da) ((da)->len == 0) ? NULL : &(da)->items[(da)->len-1]
