@@ -4,6 +4,7 @@
 | - | - |
 | Dynamic Array | [yac_dynamic_array.h](/yac_dynamic_array.h) |
 | Map (Ordered) | [yac_ordered_map.h](/yac_ordered_map.h) |
+| Map (Unordered) | [yac_unordered_map.h](/yac_unordered_map.h) |
 | String View | [yac_string_view.h](/yac_string_view.h) |
 | String Builder | [yac_string_builder.h](/yac_string_builder.h) |
 
