@@ -1,12 +1,12 @@
 #include <stdio.h> // printf
 
-#include "../yacc_da.h"
+#include "../yac_dynamic_array.h"
 
 #define YACC_SV_IMPLEMENTATION
-#include "../yacc_sv.h"
+#include "../yac_string_view.h"
 
 #define YACC_SB_IMPLEMENTATION
-#include "../yacc_sb.h"
+#include "../yac_string_builder.h"
 
 void test_sb_expand_buffer(void)
 {

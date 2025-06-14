@@ -1,6 +1,6 @@
 #include <stdio.h> // printf
 
-#include "../yacc_da.h"
+#include "../yac_dynamic_array.h"
 
 typedef struct {
     int *items;
