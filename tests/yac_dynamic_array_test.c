@@ -3,7 +3,7 @@
 #include "../yac_dynamic_array.h"
 
 typedef struct {
-    int *items;
+    int* items;
     size_t len;
     size_t capacity;
 } DaInt;
