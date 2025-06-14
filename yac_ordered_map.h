@@ -35,7 +35,12 @@
 #endif // YAC_ORDERED_MAP_API
 
 
-// DECLARATIONS
+// The key value pair for associative data structures.
+typedef struct _YacOrderedMapPair {
+    void* key;
+    void* value;
+} YacOrderedMapPair;
+
 
 // YacOrderedMapData is the data type for the container private information.
 typedef struct _YacOrderedMapData YacOrderedMapData;
@@ -48,13 +53,6 @@ typedef void (*YacOrderedMapCleanKey) (void*);
 
 // Value cleanup function called whenever a live entry is removed.
 typedef void (*YacOrderedMapCleanValue) (void*);
-
-
-// The key value pair for associative data structures.
-typedef struct _OrderedMapPair {
-    void* key;
-    void* value;
-} OrderedMapPair;
 
 
 // The implementation for ordered map.
@@ -78,26 +76,26 @@ typedef struct _YacOrderedMap {
     unsigned (*size) (struct _YacOrderedMap*);
 
     // Retrieve the key value pair with the minimum order from the map. @see YacOrderedMapMinimum.
-    OrderedMapPair* (*minimum) (struct _YacOrderedMap*);
+    YacOrderedMapPair* (*minimum) (struct _YacOrderedMap*);
 
     // Retrieve the key value pair with the maximum order from the map. @see YacOrderedMapMaximum.
-    OrderedMapPair* (*maximum) (struct _YacOrderedMap*);
+    YacOrderedMapPair* (*maximum) (struct _YacOrderedMap*);
 
     // Retrieve the key value pair which is the predecessor of the given key. @see YacOrderedMapPredecessor.
-    OrderedMapPair* (*predecessor) (struct _YacOrderedMap*, void*);
+    YacOrderedMapPair* (*predecessor) (struct _YacOrderedMap*, void*);
 
     // Retrieve the key value pair which is the successor of the given key. @see YacOrderedMapSuccessor.
-    OrderedMapPair* (*successor) (struct _YacOrderedMap*, void*);
+    YacOrderedMapPair* (*successor) (struct _YacOrderedMap*, void*);
 
     // Initialize the map iterator. @see YacOrderedMapFirst.
     void (*first) (struct _YacOrderedMap*);
 
     // Get the key value pair pointed by the iterator and advance the iterator. @see YacOrderedMapNext.
-    OrderedMapPair* (*next) (struct _YacOrderedMap*);
+    YacOrderedMapPair* (*next) (struct _YacOrderedMap*);
 
     // Get the key value pair pointed by the iterator and advance the iterator in the reverse order.
     // @see YacOrderedMapNext.
-    OrderedMapPair* (*reverse_next) (struct _YacOrderedMap*);
+    YacOrderedMapPair* (*reverse_next) (struct _YacOrderedMap*);
 
     // Set the custom key comparison function. @see YacOrderedMapSetCompare.
     void (*set_compare) (struct _YacOrderedMap*, YacOrderedMapCompare);
@@ -108,6 +106,11 @@ typedef struct _YacOrderedMap {
     // Set the custom value cleanup function. @see YacOrderedMapSetCleanValue.
     void (*set_clean_value) (struct _YacOrderedMap*, YacOrderedMapCleanValue);
 } YacOrderedMap;
+
+
+//
+// Definition for the exported member operations
+//
 
 // The constructor for YacOrderedMap.
 YAC_ORDERED_MAP_API YacOrderedMap* YacOrderedMapInit(void);
@@ -136,25 +139,25 @@ YAC_ORDERED_MAP_API bool YacOrderedMapRemove(YacOrderedMap* self, void* key);
 YAC_ORDERED_MAP_API unsigned YacOrderedMapSize(YacOrderedMap* self);
 
 // Retrieve the key value pair with the minimum order from the map.
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapMinimum(YacOrderedMap* self);
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapMinimum(YacOrderedMap* self);
 
 // Retrieve the key value pair with the maximum order from the map.
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapMaximum(YacOrderedMap* self);
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapMaximum(YacOrderedMap* self);
 
 // Retrieve the key value pair which is the predecessor of the given key.
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapPredecessor(YacOrderedMap* self, void* key);
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapPredecessor(YacOrderedMap* self, void* key);
 
 // Retrieve the key value pair which is the successor of the given key.
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapSuccessor(YacOrderedMap* self, void* key);
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapSuccessor(YacOrderedMap* self, void* key);
 
 // Initialize the map iterator.
 YAC_ORDERED_MAP_API void YacOrderedMapFirst(YacOrderedMap* self);
 
 // Get the key value pair pointed by the iterator and advance the iterator.
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapNext(YacOrderedMap* self);
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapNext(YacOrderedMap* self);
 
 // Get the key value pair pointed by the iterator and advance the iterator in the reverse order.
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapReverseNext(YacOrderedMap* self);
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapReverseNext(YacOrderedMap* self);
 
 // Set the custom key comparison function. By default, key is treated as integer.
 YAC_ORDERED_MAP_API void YacOrderedMapSetCompare(YacOrderedMap* self, YacOrderedMapCompare func);
@@ -169,7 +172,9 @@ YAC_ORDERED_MAP_API void YacOrderedMapSetCleanValue(YacOrderedMap* self, YacOrde
 #endif // YAC_ORDERED_MAP_H_
 
 
+//
 // IMPLEMENTATION
+//
 
 #ifdef YAC_ORDERED_MAP_IMPLEMENTATION
 
@@ -187,7 +192,7 @@ YAC_ORDERED_MAP_API void YacOrderedMapSetCleanValue(YacOrderedMap* self, YacOrde
 
 typedef struct _TreeNode {
     char color_;
-    OrderedMapPair pair_;
+    YacOrderedMapPair pair_;
     struct _TreeNode* parent_;
     struct _TreeNode* left_;
     struct _TreeNode* right_;
@@ -204,6 +209,10 @@ struct _YacOrderedMapData {
     YacOrderedMapCleanValue func_clean_val_;
 };
 
+
+//
+// Definition for internal operations
+//
 
 // Traverse all the tree nodes and clean the allocated resource.
 static void YacOrderedMapDeinit_(YacOrderedMapData* data);
@@ -253,6 +262,10 @@ static int YacOrderedMapCompare_(void* lhs, void* rhs);
 #define YAC_UP_LEFT 3
 #define YAC_UP_RIGHT 4
 
+
+//
+// Implementation for the exported operations
+//
 
 YAC_ORDERED_MAP_API YacOrderedMap* YacOrderedMapInit(void)
 {
@@ -489,7 +502,7 @@ YAC_ORDERED_MAP_API unsigned YacOrderedMapSize(YacOrderedMap* self)
     return self->data->size_;
 }
 
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapMinimum(YacOrderedMap* self)
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapMinimum(YacOrderedMap* self)
 {
     TreeNode* node = YacOrderedMapMinimal_(self->data->null_, self->data->root_);
     if (node != self->data->null_)
@@ -497,7 +510,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapMinimum(YacOrderedMap* self)
     return NULL;
 }
 
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapMaximum(YacOrderedMap* self)
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapMaximum(YacOrderedMap* self)
 {
     TreeNode* node = YacOrderedMapMaximal_(self->data->null_, self->data->root_);
     if (node != self->data->null_)
@@ -505,7 +518,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapMaximum(YacOrderedMap* self)
     return NULL;
 }
 
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapPredecessor(YacOrderedMap* self, void* key)
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapPredecessor(YacOrderedMap* self, void* key)
 {
     TreeNode* curr = YacOrderedMapSearch_(self->data, key);
     if (curr == self->data->null_)
@@ -518,7 +531,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapPredecessor(YacOrderedMap* self
     return NULL;
 }
 
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapSuccessor(YacOrderedMap* self, void* key)
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapSuccessor(YacOrderedMap* self, void* key)
 {
     TreeNode* curr = YacOrderedMapSearch_(self->data, key);
     if (curr == self->data->null_)
@@ -537,7 +550,7 @@ YAC_ORDERED_MAP_API void YacOrderedMapFirst(YacOrderedMap* self)
     self->data->iter_node_ = self->data->root_;
 }
 
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapNext(YacOrderedMap* self)
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapNext(YacOrderedMap* self)
 {
     char direct = self->data->iter_direct_;
     TreeNode* null = self->data->null_;
@@ -551,7 +564,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapNext(YacOrderedMap* self)
                 continue;
             }
 
-            OrderedMapPair* pair = &(curr->pair_);
+            YacOrderedMapPair* pair = &(curr->pair_);
 
             if (curr->right_ != null) {
                 self->data->iter_node_ = curr->right_;
@@ -571,7 +584,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapNext(YacOrderedMap* self)
         }
 
         if (direct == YAC_UP_LEFT) {
-            OrderedMapPair* pair = &(curr->pair_);
+            YacOrderedMapPair* pair = &(curr->pair_);
 
             if (curr->right_ != null) {
                 self->data->iter_node_ = curr->right_;
@@ -604,7 +617,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapNext(YacOrderedMap* self)
     return NULL;
 }
 
-YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapReverseNext(YacOrderedMap* self)
+YAC_ORDERED_MAP_API YacOrderedMapPair* YacOrderedMapReverseNext(YacOrderedMap* self)
 {
     char direct = self->data->iter_direct_;
     TreeNode* null = self->data->null_;
@@ -618,7 +631,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapReverseNext(YacOrderedMap* self
                 continue;
             }
 
-            OrderedMapPair* pair = &(curr->pair_);
+            YacOrderedMapPair* pair = &(curr->pair_);
 
             if (curr->left_ != null) {
                 self->data->iter_node_ = curr->left_;
@@ -638,7 +651,7 @@ YAC_ORDERED_MAP_API OrderedMapPair* YacOrderedMapReverseNext(YacOrderedMap* self
         }
 
         if (direct == YAC_UP_RIGHT) {
-            OrderedMapPair* pair = &(curr->pair_);
+            YacOrderedMapPair* pair = &(curr->pair_);
 
             if (curr->left_ != null) {
                 self->data->iter_node_ = curr->left_;

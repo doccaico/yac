@@ -131,11 +131,11 @@ void test_minimum_and_maximum(void)
 
     assert(map->size(map) == 3);
 
-    OrderedMapPair* pair_min = map->minimum(map);
+    YacOrderedMapPair* pair_min = map->minimum(map);
     assert(strcmp((char*)(void*)pair_min->key, "1") == 0);
     assert((int*)(void*)pair_min->value == (int*)10);
 
-    OrderedMapPair* pair_max = map->maximum(map);
+    YacOrderedMapPair* pair_max = map->maximum(map);
     assert(strcmp((char*)(void*)pair_max->key, "3") == 0);
     assert((int*)(void*)pair_max->value == (int*)30);
 
@@ -154,11 +154,11 @@ void test_predecessor_and_successor(void)
 
     assert(map->size(map) == 3);
 
-    OrderedMapPair* pair_pre = map->predecessor(map, (void*)(char*)"2");
+    YacOrderedMapPair* pair_pre = map->predecessor(map, (void*)(char*)"2");
     assert(strcmp((char*)(void*)pair_pre->key, "1") == 0);
     assert((int*)(void*)pair_pre->value == (int*)10);
 
-    OrderedMapPair* pair_max = map->successor(map, (void*)(char*)"2");
+    YacOrderedMapPair* pair_max = map->successor(map, (void*)(char*)"2");
     assert(strcmp((char*)(void*)pair_max->key, "3") == 0);
     assert((int*)(void*)pair_max->value == (int*)30);
 
@@ -178,13 +178,13 @@ void test_iterator(void)
     // for loop
     int expected = 0;
     map->first(map);
-    for (OrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+    for (YacOrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
         expected += 10;
         assert((unsigned long long)(int*)pair->value == expected);
     }
 
     // while loop
-    OrderedMapPair *pair = NULL;
+    YacOrderedMapPair *pair = NULL;
     expected = 0;
     map->first(map);
     while ((pair = map->next(map)) != NULL) {
@@ -217,7 +217,7 @@ void test_default_compare(void)
 
     int expected = 0;
     map->first(map);
-    for (OrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+    for (YacOrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
         expected += 10;
         assert((unsigned long long)(int*)pair->value == expected);
     }
@@ -259,7 +259,7 @@ void test_compare_and_clean(void)
 
     int expected = 0;
     map->first(map);
-    for (OrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
+    for (YacOrderedMapPair *pair = map->next(map); pair != NULL; pair = map->next(map)) {
         expected += 10;
         assert((unsigned long long)(int*)pair->value == expected);
     }
