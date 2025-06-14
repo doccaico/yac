@@ -116,7 +116,7 @@ void test_get_cstr(void)
     YacStringBuilderClearAndFree(sb1);
 }
 
-void test_appendf(void)
+void test_append_format(void)
 {
     YacStringBuilder sb1 = YacStringBuilderCreate(0);
     YacStringBuilderAppendFormat(&sb1, "%s %s %s", "Rust", "and", "Go");
@@ -135,7 +135,7 @@ int main(void)
     test_append_cstr();
     test_append_sb();
     test_get_cstr();
-    test_appendf();
+    test_append_format();
 
     return 0;
 }

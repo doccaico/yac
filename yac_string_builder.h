@@ -33,6 +33,7 @@
 
 #include "./yac_dynamic_array.h"
 
+
 #ifndef YAC_STRING_BUILDER_ASSERT
 #include <assert.h> // assert
 #define YAC_STRING_BUILDER_ASSERT assert
