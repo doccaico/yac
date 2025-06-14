@@ -1054,7 +1054,7 @@ static void YacOrderedMapDeleteFixup_(YacOrderedMapData* data, TreeNode* curr)
             //   A   B (B)y z(B)    A   B (B)y z(B)
             //
             if ((brother->left_->color_ == YAC_COLOR_BLACK) &&
-                (brother->right_->color_ == YAC_COLOR_BLACK)) {
+                    (brother->right_->color_ == YAC_COLOR_BLACK)) {
                 brother->color_ = YAC_COLOR_RED;
                 curr = curr->parent_;
             } else {
@@ -1116,7 +1116,7 @@ static void YacOrderedMapDeleteFixup_(YacOrderedMapData* data, TreeNode* curr)
             }
             // Case 2: The color of x's brother is black, and both of its children are also black.
             if ((brother->left_->color_ == YAC_COLOR_BLACK) &&
-                (brother->right_->color_ == YAC_COLOR_BLACK)) {
+                    (brother->right_->color_ == YAC_COLOR_BLACK)) {
                 brother->color_ = YAC_COLOR_RED;
                 curr = curr->parent_;
             } else {
