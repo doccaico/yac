@@ -20,14 +20,14 @@
 #include <string.h> // memcpy
 
 
-// Da (Dynamic array) works on any struct with *items, len and capacity fields
+// Dynamic array works on any struct with *items, len and capacity fields
 
-// Grow factor of the da.
+// Grow factor of the dynamic array.
 #ifndef YAC_DYNAMIC_ARRAY_GROW_FACTOR
 #define YAC_DYNAMIC_ARRAY_GROW_FACTOR 2
 #endif
 
-// Initial capacity of the da.
+// Initial capacity of the dynamic array.
 #ifndef YAC_DYNAMIC_ARRAY_INIT_CAP
 #define YAC_DYNAMIC_ARRAY_INIT_CAP 8
 #endif
@@ -47,7 +47,7 @@
         }                                                                                                 \
     } while (0)
 
-// Append an item to the da.
+// Append an item to the dynamic array.
 #define YacDynamicArrayAppend(da, item)               \
     do {                                              \
         YacDynamicArrayReserve((da), (da)->len + 1);  \
@@ -82,7 +82,7 @@
 // Whether items is NULL or not.
 #define YacDynamicArrayIsNull(da) ((da).items == NULL)
 
-// Append several items to the da.
+// Append several items to the dynamic array.
 #define YacDynamicArrayAppendMany(da, new_items, new_items_len)                              \
     do {                                                                                     \
         YacDynamicArrayReserve((da), (da)->len + (new_items_len));                           \
@@ -90,14 +90,14 @@
         (da)->len += (new_items_len);                                                        \
     } while (0)
 
-// Returns the last element from the da. Asserts that the da is not empty.
+// Returns the last element from the dynamic array. Asserts that the dynamic array is not empty.
 #define YacDynamicArrayGetLast(da) \
     (da)->items[(YAC_DYNAMIC_ARRAY_ASSERT((da)->len > 0 && "da->items is empty"), (da)->len-1)]
 
-// Returns the last element from the da, or null if da is empty.
+// Returns the last element from the dynamic array, or null if dynamic array is empty.
 #define YacDynamicArraygetLastOrNull(da) ((da)->len == 0) ? NULL : &(da)->items[(da)->len-1]
 
-// Remove and return the last element from the da, or return null if da is empty.
+// Remove and return the last element from the dynamic array, or return null if dynamic array is empty.
 // Invalidates element pointers to the removed element, if any.
 #define YacDynamicArrayPop(da) (((da)->len == 0) ? NULL : &(da)->items[--((da)->len)])
 
