@@ -5,7 +5,7 @@
 #define YAC_ORDERED_MAP_IMPLEMENTATION
 #include "../yac_ordered_map.h"
 
-void test_ordered_map_init_and_deinit(void)
+void test_init_and_deinit(void)
 {
     YacOrderedMap* map;
 
@@ -14,7 +14,7 @@ void test_ordered_map_init_and_deinit(void)
     YacOrderedMapDeinit(map);
 }
 
-void test_ordered_map_put_and_get(void)
+void test_put_and_get(void)
 {
     {
         // KEY = int, VALUE = int
@@ -75,7 +75,7 @@ void test_ordered_map_put_and_get(void)
     }
 }
 
-void test_ordered_map_find(void)
+void test_find(void)
 {
     YacOrderedMap* map;
 
@@ -94,7 +94,7 @@ void test_ordered_map_find(void)
     YacOrderedMapDeinit(map);
 }
 
-void test_ordered_map_remove(void)
+void test_remove(void)
 {
     YacOrderedMap* map;
 
@@ -120,7 +120,7 @@ void test_ordered_map_remove(void)
     YacOrderedMapDeinit(map);
 }
 
-void test_ordered_map_minimum_and_maximum(void)
+void test_minimum_and_maximum(void)
 {
     YacOrderedMap* map;
 
@@ -143,7 +143,7 @@ void test_ordered_map_minimum_and_maximum(void)
     YacOrderedMapDeinit(map);
 }
 
-void test_ordered_map_predecessor_and_successor(void)
+void test_predecessor_and_successor(void)
 {
     YacOrderedMap* map;
 
@@ -166,7 +166,7 @@ void test_ordered_map_predecessor_and_successor(void)
     YacOrderedMapDeinit(map);
 }
 
-void test_ordered_map_iterator(void)
+void test_iterator(void)
 {
     YacOrderedMap* map;
 
@@ -205,7 +205,7 @@ void test_ordered_map_iterator(void)
     YacOrderedMapDeinit(map);
 }
 
-void test_ordered_map_default_compare(void)
+void test_default_compare(void)
 {
     YacOrderedMap* map;
 
@@ -243,7 +243,7 @@ void clean_value(void* value)
     // puts("clean value");
 }
 
-void test_ordered_map_compare_and_clean(void)
+void test_compare_and_clean(void)
 {
     YacOrderedMap* map;
 
@@ -270,15 +270,15 @@ void test_ordered_map_compare_and_clean(void)
 
 int main(void)
 {
-    test_ordered_map_init_and_deinit();
-    test_ordered_map_put_and_get();
-    test_ordered_map_find();
-    test_ordered_map_remove();
-    test_ordered_map_minimum_and_maximum();
-    test_ordered_map_predecessor_and_successor();
-    test_ordered_map_iterator();
-    test_ordered_map_default_compare();
-    test_ordered_map_compare_and_clean();
+    test_init_and_deinit();
+    test_put_and_get();
+    test_find();
+    test_remove();
+    test_minimum_and_maximum();
+    test_predecessor_and_successor();
+    test_iterator();
+    test_default_compare();
+    test_compare_and_clean();
 
     return 0;
 }

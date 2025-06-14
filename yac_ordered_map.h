@@ -20,14 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-// Original work
-// https://github.com/ZSShen/C-Common-Data-Structures
 
 #ifndef YAC_ORDERED_MAP_H_
 #define YAC_ORDERED_MAP_H_
 
-#include <stdlib.h>
-#include <stdbool.h>
+#include <stdbool.h> // bool
 
 #ifndef YAC_ORDERED_MAP_API
 #ifdef YAC_ORDERED_MAP_STATIC
@@ -36,6 +33,7 @@
 #define YAC_ORDERED_MAP_API extern
 #endif // YAC_ORDERED_MAP_STATIC
 #endif // YAC_ORDERED_MAP_API
+
 
 // DECLARATIONS
 
@@ -176,6 +174,17 @@ YAC_ORDERED_MAP_API void YacOrderedMapSetCleanValue(YacOrderedMap* self, YacOrde
 #ifdef YAC_ORDERED_MAP_IMPLEMENTATION
 
 
+#include <stdlib.h> // malloc, free
+
+#ifndef YAC_ORDERED_MAP_MALLOC
+#define YAC_ORDERED_MAP_MALLOC malloc
+#endif
+
+#ifndef YAC_ORDERED_MAP_FREE
+#define YAC_ORDERED_MAP_FREE free
+#endif
+
+
 typedef struct _TreeNode {
     char color_;
     OrderedMapPair pair_;
@@ -197,41 +206,41 @@ struct _YacOrderedMapData {
 
 
 // Traverse all the tree nodes and clean the allocated resource.
-void _YacOrderedMapDeinit(YacOrderedMapData* data);
+static void _YacOrderedMapDeinit(YacOrderedMapData* data);
 
 // Return the node having the maximal order in the subtree rooted by the ted node.
 // The node order is determined by its stored key.
-TreeNode* _YacOrderedMapMaximal(TreeNode* null, TreeNode* curr);
+static TreeNode* _YacOrderedMapMaximal(TreeNode* null, TreeNode* curr);
 
 // Return the node having the minimal order in the subtree rooted by the designated node.
 // The node order is determined by its stored key.
-TreeNode* _YacOrderedMapMinimal(TreeNode* null, TreeNode* curr);
+static TreeNode* _YacOrderedMapMinimal(TreeNode* null, TreeNode* curr);
 
 // Return the immediate successor of the designated node.
-TreeNode* _YacOrderedMapSuccessor(TreeNode* null, TreeNode* curr);
+static TreeNode* _YacOrderedMapSuccessor(TreeNode* null, TreeNode* curr);
 
 // Return the immediate predecessor of the designated node.
-TreeNode* _YacOrderedMapPredecessor(TreeNode* null, TreeNode* curr);
+static TreeNode* _YacOrderedMapPredecessor(TreeNode* null, TreeNode* curr);
 
 // Make right rotation for the subtree rooted by the designated node.
 // After rotation, the designated node will be the right child of its original left child.
-void _YacOrderedMapRightRotate(YacOrderedMapData* data, TreeNode* curr);
+static void _YacOrderedMapRightRotate(YacOrderedMapData* data, TreeNode* curr);
 
 // Make left rotation for the subtree rooted by the designated node.
 // After rotation, the designated node will be the left child of its original right child.
-void _YacOrderedMapLeftRotate(YacOrderedMapData* data, TreeNode* curr);
+static void _YacOrderedMapLeftRotate(YacOrderedMapData* data, TreeNode* curr);
 
 // Maintain the red black tree property after node insertion.
-void _YacOrderedMapInsertFixup(YacOrderedMapData* data, TreeNode* curr);
+static void _YacOrderedMapInsertFixup(YacOrderedMapData* data, TreeNode* curr);
 
 // Maintain the red black tree property after node deletion.
-void _YacOrderedMapDeleteFixup(YacOrderedMapData* data, TreeNode* curr);
+static void _YacOrderedMapDeleteFixup(YacOrderedMapData* data, TreeNode* curr);
 
 // Get the node which stores the key having the same order with the designated one.
-TreeNode* _YacOrderedMapSearch(YacOrderedMapData* data, void* key);
+static TreeNode* _YacOrderedMapSearch(YacOrderedMapData* data, void* key);
 
 // The default hash key comparison function.
-int _YacOrderedMapCompare(void* lhs, void* rhs);
+static int _YacOrderedMapCompare(void* lhs, void* rhs);
 
 
 #define YAC_DIRECT_LEFT 0
@@ -247,21 +256,21 @@ int _YacOrderedMapCompare(void* lhs, void* rhs);
 
 YAC_ORDERED_MAP_API YacOrderedMap* YacOrderedMapInit(void)
 {
-    YacOrderedMap* obj = (YacOrderedMap*)malloc(sizeof(YacOrderedMap));
+    YacOrderedMap* obj = YAC_ORDERED_MAP_MALLOC (sizeof(YacOrderedMap));
     if (!obj)
         return NULL;
 
-    YacOrderedMapData* data = (YacOrderedMapData*)malloc(sizeof(YacOrderedMapData));
+    YacOrderedMapData* data = YAC_ORDERED_MAP_MALLOC(sizeof(YacOrderedMapData));
     if (!data) {
-        free(obj);
+        YAC_ORDERED_MAP_FREE(obj);
         return NULL;
     }
 
     // Create the dummy node representing the NULL pointer of the tree.
-    TreeNode* null = (TreeNode*)malloc(sizeof(TreeNode));
+    TreeNode* null = YAC_ORDERED_MAP_MALLOC(sizeof(TreeNode));
     if (!null) {
-        free(data);
-        free(obj);
+        YAC_ORDERED_MAP_FREE(data);
+        YAC_ORDERED_MAP_FREE(obj);
         return NULL;
     }
 
@@ -305,15 +314,15 @@ YAC_ORDERED_MAP_API void YacOrderedMapDeinit(YacOrderedMap* obj)
 
     YacOrderedMapData* data = obj->data;
     _YacOrderedMapDeinit(data);
-    free(data->null_);
-    free(data);
-    free(obj);
+    YAC_ORDERED_MAP_FREE(data->null_);
+    YAC_ORDERED_MAP_FREE(data);
+    YAC_ORDERED_MAP_FREE(obj);
     return;
 }
 
 YAC_ORDERED_MAP_API bool YacOrderedMapPut(YacOrderedMap* self, void* key, void* value)
 {
-    TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
+    TreeNode* node = YAC_ORDERED_MAP_MALLOC(sizeof(TreeNode));
     if (!node)
         return false;
 
@@ -343,7 +352,7 @@ YAC_ORDERED_MAP_API bool YacOrderedMapPut(YacOrderedMap* self, void* key, void* 
         }
         else {
             // Conflict with the already stored key value pair.
-            free(node);
+            YAC_ORDERED_MAP_FREE(node);
             if (data->func_clean_key_)
                 data->func_clean_key_(curr->pair_.key);
             if (data->func_clean_val_)
@@ -414,7 +423,7 @@ YAC_ORDERED_MAP_API bool YacOrderedMapRemove(YacOrderedMap* self, void* key)
             data->func_clean_key_(curr->pair_.key);
         if (data->func_clean_val_)
             data->func_clean_val_(curr->pair_.value);
-        free(curr);
+        YAC_ORDERED_MAP_FREE(curr);
     } else {
         // The specified node has two children.
         if ((curr->left_ != null) && (curr->right_ != null)) {
@@ -438,7 +447,7 @@ YAC_ORDERED_MAP_API bool YacOrderedMapRemove(YacOrderedMap* self, void* key)
                 data->func_clean_val_(curr->pair_.value);
             curr->pair_.key = succ->pair_.key;
             curr->pair_.value = succ->pair_.value;
-            free(succ);
+            YAC_ORDERED_MAP_FREE(succ);
         }
         // The specified node has one child.
         else {
@@ -461,7 +470,7 @@ YAC_ORDERED_MAP_API bool YacOrderedMapRemove(YacOrderedMap* self, void* key)
                 data->func_clean_key_(curr->pair_.key);
             if (data->func_clean_val_)
                 data->func_clean_val_(curr->pair_.value);
-            free(curr);
+            YAC_ORDERED_MAP_FREE(curr);
         }
     }
 
@@ -682,7 +691,7 @@ YAC_ORDERED_MAP_API void YacOrderedMapSetCleanValue(YacOrderedMap* self, YacOrde
 // Implementation for internal operations
 //
 
-void _YacOrderedMapDeinit(YacOrderedMapData* data)
+static void _YacOrderedMapDeinit(YacOrderedMapData* data)
 {
     TreeNode* null = data->null_;
     if (data->root_ == null)
@@ -717,7 +726,7 @@ void _YacOrderedMapDeinit(YacOrderedMapData* data)
                 func_clean_key(temp->pair_.key);
             if (func_clean_val)
                 func_clean_val(temp->pair_.value);
-            free(temp);
+            YAC_ORDERED_MAP_FREE(temp);
             continue;
         }
 
@@ -739,7 +748,7 @@ void _YacOrderedMapDeinit(YacOrderedMapData* data)
                 func_clean_key(temp->pair_.key);
             if (func_clean_val)
                 func_clean_val(temp->pair_.value);
-            free(temp);
+            YAC_ORDERED_MAP_FREE(temp);
             continue;
         }
 
@@ -754,13 +763,13 @@ void _YacOrderedMapDeinit(YacOrderedMapData* data)
             func_clean_key(temp->pair_.key);
         if (func_clean_val)
             func_clean_val(temp->pair_.value);
-        free(temp);
+        YAC_ORDERED_MAP_FREE(temp);
     }
 
     return;
 }
 
-TreeNode* _YacOrderedMapMaximal(TreeNode* null, TreeNode* curr)
+static TreeNode* _YacOrderedMapMaximal(TreeNode* null, TreeNode* curr)
 {
     TreeNode* parent = null;
     while (curr != null) {
@@ -770,7 +779,7 @@ TreeNode* _YacOrderedMapMaximal(TreeNode* null, TreeNode* curr)
     return parent;
 }
 
-TreeNode* _YacOrderedMapMinimal(TreeNode* null, TreeNode* curr)
+static TreeNode* _YacOrderedMapMinimal(TreeNode* null, TreeNode* curr)
 {
     TreeNode* parent = null;
     while (curr != null) {
@@ -780,7 +789,7 @@ TreeNode* _YacOrderedMapMinimal(TreeNode* null, TreeNode* curr)
     return parent;
 }
 
-TreeNode* _YacOrderedMapSuccessor(TreeNode* null, TreeNode* curr)
+static TreeNode* _YacOrderedMapSuccessor(TreeNode* null, TreeNode* curr)
 {
     if (curr != null) {
         // Case 1: The minimal node in the non-null right subtree.
@@ -797,7 +806,7 @@ TreeNode* _YacOrderedMapSuccessor(TreeNode* null, TreeNode* curr)
     return curr;
 }
 
-TreeNode* _YacOrderedMapPredecessor(TreeNode* null, TreeNode* curr)
+static TreeNode* _YacOrderedMapPredecessor(TreeNode* null, TreeNode* curr)
 {
     if (curr != null) {
         // Case 1: The maximal node in the non-null left subtree.
@@ -814,7 +823,7 @@ TreeNode* _YacOrderedMapPredecessor(TreeNode* null, TreeNode* curr)
     return curr;
 }
 
-void _YacOrderedMapRightRotate(YacOrderedMapData* data, TreeNode* curr)
+static void _YacOrderedMapRightRotate(YacOrderedMapData* data, TreeNode* curr)
 {
     TreeNode* null = data->null_;
     TreeNode* child = curr->left_;
@@ -851,7 +860,7 @@ void _YacOrderedMapRightRotate(YacOrderedMapData* data, TreeNode* curr)
     return;
 }
 
-void _YacOrderedMapLeftRotate(YacOrderedMapData* data, TreeNode* curr)
+static void _YacOrderedMapLeftRotate(YacOrderedMapData* data, TreeNode* curr)
 {
     TreeNode* null = data->null_;
     TreeNode* child = curr->right_;
@@ -888,7 +897,7 @@ void _YacOrderedMapLeftRotate(YacOrderedMapData* data, TreeNode* curr)
     return;
 }
 
-void _YacOrderedMapInsertFixup(YacOrderedMapData* data, TreeNode* curr)
+static void _YacOrderedMapInsertFixup(YacOrderedMapData* data, TreeNode* curr)
 {
     TreeNode* uncle;
 
@@ -987,7 +996,7 @@ void _YacOrderedMapInsertFixup(YacOrderedMapData* data, TreeNode* curr)
     return;
 }
 
-void _YacOrderedMapDeleteFixup(YacOrderedMapData* data, TreeNode* curr)
+static void _YacOrderedMapDeleteFixup(YacOrderedMapData* data, TreeNode* curr)
 {
     TreeNode* brother;
 
@@ -1117,7 +1126,7 @@ void _YacOrderedMapDeleteFixup(YacOrderedMapData* data, TreeNode* curr)
     return;
 }
 
-TreeNode* _YacOrderedMapSearch(YacOrderedMapData* data, void* key)
+static TreeNode* _YacOrderedMapSearch(YacOrderedMapData* data, void* key)
 {
     YacOrderedMapCompare func_cmp = data->func_cmp_;
     TreeNode* null = data->null_;
@@ -1136,23 +1145,12 @@ TreeNode* _YacOrderedMapSearch(YacOrderedMapData* data, void* key)
     return curr;
 }
 
-int _YacOrderedMapCompare(void* lhs, void* rhs)
+static int _YacOrderedMapCompare(void* lhs, void* rhs)
 {
     if ((intptr_t)lhs == (intptr_t)rhs)
         return 0;
     return ((intptr_t)lhs >= (intptr_t)rhs)? 1 : (-1);
 }
-
-
-#undef YAC_DIRECT_LEFT
-#undef YAC_DIRECT_RIGHT
-#undef YAC_COLOR_RED
-#undef YAC_COLOR_BLACK
-#undef YAC_STOP
-#undef YAC_DOWN_LEFT
-#undef YAC_DOWN_RIGHT
-#undef YAC_UP_LEFT
-#undef YAC_UP_RIGHT
 
 
 #endif // YAC_ORDERED_MAP_IMPLEMENTATION
