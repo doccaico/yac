@@ -23,7 +23,7 @@
 // DECLARATIONS
 
 typedef struct {
-    const char *begin;
+    const char* begin;
     size_t len;
 } YacStringView;
 
@@ -49,27 +49,27 @@ typedef struct {
 
 #define YacStringViewAdvance(sv) (++(sv).begin, --(sv).len)
 
-YAC_STRING_VIEW_API bool YacStringViewEquals(const YacStringView *lhs, const YacStringView *rhs);
-YAC_STRING_VIEW_API bool YacStringViewEqualsIcase(const YacStringView *lhs, const YacStringView *rhs);
+YAC_STRING_VIEW_API bool YacStringViewEquals(const YacStringView* lhs, const YacStringView* rhs);
+YAC_STRING_VIEW_API bool YacStringViewEqualsIcase(const YacStringView* lhs, const YacStringView* rhs);
 
-YAC_STRING_VIEW_API bool YacStringViewStartsWithCstr(const YacStringView *sv, const char *start);
-YAC_STRING_VIEW_API bool YacStringViewStartsWithCstrIcase(const YacStringView *sv, const char *start);
-YAC_STRING_VIEW_API bool YacStringViewEndsWithCstr(const YacStringView *sv, const char *end);
-YAC_STRING_VIEW_API bool YacStringViewEndsWithCstrIcase(const YacStringView *sv, const char *end);
+YAC_STRING_VIEW_API bool YacStringViewStartsWithCstr(const YacStringView* sv, const char* start);
+YAC_STRING_VIEW_API bool YacStringViewStartsWithCstrIcase(const YacStringView* sv, const char* start);
+YAC_STRING_VIEW_API bool YacStringViewEndsWithCstr(const YacStringView* sv, const char* end);
+YAC_STRING_VIEW_API bool YacStringViewEndsWithCstrIcase(const YacStringView* sv, const char* end);
 
-YAC_STRING_VIEW_API bool YacStringViewStartsWith(const YacStringView *sv, const YacStringView *start);
-YAC_STRING_VIEW_API bool YacStringViewStartsWithIcase(const YacStringView *sv, const YacStringView *start);
-YAC_STRING_VIEW_API bool YacStringViewEndsWith(const YacStringView *sv, const YacStringView *end);
-YAC_STRING_VIEW_API bool YacStringViewEndsWithIcase(const YacStringView *sv, const YacStringView *end);
-YAC_STRING_VIEW_API void YacStringViewStripL(YacStringView *sv);
-YAC_STRING_VIEW_API void YacStringViewStripR(YacStringView *sv);
-YAC_STRING_VIEW_API void YacStringViewStrip(YacStringView *sv);
+YAC_STRING_VIEW_API bool YacStringViewStartsWith(const YacStringView* sv, const YacStringView* start);
+YAC_STRING_VIEW_API bool YacStringViewStartsWithIcase(const YacStringView* sv, const YacStringView* start);
+YAC_STRING_VIEW_API bool YacStringViewEndsWith(const YacStringView* sv, const YacStringView* end);
+YAC_STRING_VIEW_API bool YacStringViewEndsWithIcase(const YacStringView* sv, const YacStringView* end);
+YAC_STRING_VIEW_API void YacStringViewStripL(YacStringView* sv);
+YAC_STRING_VIEW_API void YacStringViewStripR(YacStringView* sv);
+YAC_STRING_VIEW_API void YacStringViewStrip(YacStringView* sv);
 
-YAC_STRING_VIEW_API int YacStringViewIndexOf(const YacStringView *sv, int rune);
-YAC_STRING_VIEW_API int YacStringViewLastIndexOf(const YacStringView *sv, int rune);
-YAC_STRING_VIEW_API int YacStringViewIndexOfCstr(const YacStringView *sv, const char *str);
-YAC_STRING_VIEW_API YacStringView YacStringViewSplit(YacStringView *sv, const char *delim);
-YAC_STRING_VIEW_API YacStringView YacStringViewSplitExcludeDelim(YacStringView *sv, const char *delim);
+YAC_STRING_VIEW_API int YacStringViewIndexOf(const YacStringView* sv, int rune);
+YAC_STRING_VIEW_API int YacStringViewLastIndexOf(const YacStringView* sv, int rune);
+YAC_STRING_VIEW_API int YacStringViewIndexOfCstr(const YacStringView* sv, const char* str);
+YAC_STRING_VIEW_API YacStringView YacStringViewSplit(YacStringView* sv, const char* delim);
+YAC_STRING_VIEW_API YacStringView YacStringViewSplitExcludeDelim(YacStringView* sv, const char* delim);
 
 #endif // YAC_STRING_VIEW_H_
 
@@ -82,7 +82,7 @@ YAC_STRING_VIEW_API YacStringView YacStringViewSplitExcludeDelim(YacStringView *
 #define strncasecmp _strnicmp
 #endif
 
-YAC_STRING_VIEW_API bool YacStringViewEquals(const YacStringView *lhs, const YacStringView *rhs)
+YAC_STRING_VIEW_API bool YacStringViewEquals(const YacStringView* lhs, const YacStringView* rhs)
 {
     YAC_STRING_VIEW_ASSERT(NULL != lhs);
     YAC_STRING_VIEW_ASSERT(NULL != rhs);
@@ -90,7 +90,7 @@ YAC_STRING_VIEW_API bool YacStringViewEquals(const YacStringView *lhs, const Yac
     return lhs->len == rhs->len && 0 == strncmp(lhs->begin, rhs->begin, lhs->len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewEqualsIcase(const YacStringView *lhs, const YacStringView *rhs)
+YAC_STRING_VIEW_API bool YacStringViewEqualsIcase(const YacStringView* lhs, const YacStringView* rhs)
 {
     YAC_STRING_VIEW_ASSERT(NULL != lhs);
     YAC_STRING_VIEW_ASSERT(NULL != rhs);
@@ -98,7 +98,7 @@ YAC_STRING_VIEW_API bool YacStringViewEqualsIcase(const YacStringView *lhs, cons
     return lhs->len == rhs->len && 0 == strncasecmp(lhs->begin, rhs->begin, lhs->len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewStartsWithCstr(const YacStringView *sv, const char *start)
+YAC_STRING_VIEW_API bool YacStringViewStartsWithCstr(const YacStringView* sv, const char* start)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -106,7 +106,7 @@ YAC_STRING_VIEW_API bool YacStringViewStartsWithCstr(const YacStringView *sv, co
   return sv->len >= start_len && 0 == strncmp(sv->begin, start, start_len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewStartsWithCstrIcase(const YacStringView *sv, const char *start)
+YAC_STRING_VIEW_API bool YacStringViewStartsWithCstrIcase(const YacStringView* sv, const char* start)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -114,7 +114,7 @@ YAC_STRING_VIEW_API bool YacStringViewStartsWithCstrIcase(const YacStringView *s
   return sv->len >= start_len && 0 == strncasecmp(sv->begin, start, start_len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewEndsWithCstr(const YacStringView *sv, const char *end)
+YAC_STRING_VIEW_API bool YacStringViewEndsWithCstr(const YacStringView* sv, const char* end)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -122,7 +122,7 @@ YAC_STRING_VIEW_API bool YacStringViewEndsWithCstr(const YacStringView *sv, cons
   return sv->len >= end_len && 0 == strncmp(sv->begin + sv->len - end_len, end, end_len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewEndsWithCstrIcase(const YacStringView *sv, const char *end)
+YAC_STRING_VIEW_API bool YacStringViewEndsWithCstrIcase(const YacStringView* sv, const char* end)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -130,7 +130,7 @@ YAC_STRING_VIEW_API bool YacStringViewEndsWithCstrIcase(const YacStringView *sv,
   return sv->len >= end_len && 0 == strncasecmp(sv->begin + sv->len - end_len, end, end_len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewStartsWith(const YacStringView *sv, const YacStringView *start)
+YAC_STRING_VIEW_API bool YacStringViewStartsWith(const YacStringView* sv, const YacStringView* start)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
   YAC_STRING_VIEW_ASSERT(NULL != start);
@@ -138,7 +138,7 @@ YAC_STRING_VIEW_API bool YacStringViewStartsWith(const YacStringView *sv, const 
   return sv->len >= start->len && 0 == strncmp(sv->begin, start->begin, start->len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewStartsWithIcase(const YacStringView *sv, const YacStringView *start)
+YAC_STRING_VIEW_API bool YacStringViewStartsWithIcase(const YacStringView* sv, const YacStringView* start)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
   YAC_STRING_VIEW_ASSERT(NULL != start);
@@ -146,7 +146,7 @@ YAC_STRING_VIEW_API bool YacStringViewStartsWithIcase(const YacStringView *sv, c
   return sv->len >= start->len && 0 == strncasecmp(sv->begin, start->begin, start->len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewEndsWith(const YacStringView *sv, const YacStringView *end)
+YAC_STRING_VIEW_API bool YacStringViewEndsWith(const YacStringView* sv, const YacStringView* end)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
   YAC_STRING_VIEW_ASSERT(NULL != end);
@@ -154,7 +154,7 @@ YAC_STRING_VIEW_API bool YacStringViewEndsWith(const YacStringView *sv, const Ya
   return sv->len >= end->len && 0 == strncmp(sv->begin + sv->len - end->len, end->begin, end->len);
 }
 
-YAC_STRING_VIEW_API bool YacStringViewEndsWithIcase(const YacStringView *sv, const YacStringView *end)
+YAC_STRING_VIEW_API bool YacStringViewEndsWithIcase(const YacStringView* sv, const YacStringView* end)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
   YAC_STRING_VIEW_ASSERT(NULL != end);
@@ -162,7 +162,7 @@ YAC_STRING_VIEW_API bool YacStringViewEndsWithIcase(const YacStringView *sv, con
   return sv->len >= end->len && 0 == strncasecmp(sv->begin + sv->len - end->len, end->begin, end->len);
 }
 
-YAC_STRING_VIEW_API void YacStringViewStripL(YacStringView *sv)
+YAC_STRING_VIEW_API void YacStringViewStripL(YacStringView* sv)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -171,7 +171,7 @@ YAC_STRING_VIEW_API void YacStringViewStripL(YacStringView *sv)
   }
 }
 
-YAC_STRING_VIEW_API void YacStringViewStripR(YacStringView *sv)
+YAC_STRING_VIEW_API void YacStringViewStripR(YacStringView* sv)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -180,7 +180,7 @@ YAC_STRING_VIEW_API void YacStringViewStripR(YacStringView *sv)
   }
 }
 
-YAC_STRING_VIEW_API void YacStringViewStrip(YacStringView *sv)
+YAC_STRING_VIEW_API void YacStringViewStrip(YacStringView* sv)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -188,31 +188,31 @@ YAC_STRING_VIEW_API void YacStringViewStrip(YacStringView *sv)
   YacStringViewStripR(sv);
 }
 
-YAC_STRING_VIEW_API int YacStringViewIndexOf(const YacStringView *sv, int rune)
+YAC_STRING_VIEW_API int YacStringViewIndexOf(const YacStringView* sv, int rune)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
-  const char *found = strchr(sv->begin, rune);
+  const char* found = strchr(sv->begin, rune);
   return found == NULL ? -1 : (int)(found - sv->begin);
 }
 
-YAC_STRING_VIEW_API int YacStringViewLastIndexOf(const YacStringView *sv, int rune)
+YAC_STRING_VIEW_API int YacStringViewLastIndexOf(const YacStringView* sv, int rune)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
-  const char *found = strrchr(sv->begin, rune);
+  const char* found = strrchr(sv->begin, rune);
   return found == NULL ? -1 : (int)(found - sv->begin);
 }
 
-YAC_STRING_VIEW_API int YacStringViewIndexOfCstr(const YacStringView *sv, const char *str)
+YAC_STRING_VIEW_API int YacStringViewIndexOfCstr(const YacStringView* sv, const char* str)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
-  const char *found = strstr(sv->begin, str);
+  const char* found = strstr(sv->begin, str);
   return found == NULL ? -1 : (int)(found - sv->begin);
 }
 
-YAC_STRING_VIEW_API YacStringView YacStringViewSplit(YacStringView *sv, const char *delim)
+YAC_STRING_VIEW_API YacStringView YacStringViewSplit(YacStringView* sv, const char* delim)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
@@ -220,7 +220,7 @@ YAC_STRING_VIEW_API YacStringView YacStringViewSplit(YacStringView *sv, const ch
   // sv becomes YacStringView from the delim (including) to the end of the given sv
   int index = YacStringViewIndexOfCstr(sv, delim);
   if (index < 0) {
-    YacStringView result = *sv;
+    YacStringView result =* sv;
     sv->len = 0;
     return result;
   }
@@ -230,13 +230,13 @@ YAC_STRING_VIEW_API YacStringView YacStringViewSplit(YacStringView *sv, const ch
   return result;
 }
 
-YAC_STRING_VIEW_API YacStringView YacStringViewSplitExcludeDelim(YacStringView *sv, const char *delim)
+YAC_STRING_VIEW_API YacStringView YacStringViewSplitExcludeDelim(YacStringView* sv, const char* delim)
 {
   YAC_STRING_VIEW_ASSERT(NULL != sv);
 
   int index = YacStringViewIndexOfCstr(sv, delim);
   if (index < 0) {
-    YacStringView result = *sv;
+    YacStringView result =* sv;
     sv->len = 0;
     return result;
   }

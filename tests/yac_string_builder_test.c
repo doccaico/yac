@@ -1,143 +1,141 @@
 #include <stdio.h> // printf
 
-#include "../yac_dynamic_array.h"
-
-#define YACC_SV_IMPLEMENTATION
+#define YAC_STRING_VIEW_IMPLEMENTATION
 #include "../yac_string_view.h"
 
-#define YACC_SB_IMPLEMENTATION
+#define YAC_STRING_BUILDER_IMPLEMENTATION
 #include "../yac_string_builder.h"
 
-void test_sb_expand_buffer(void)
+void test_expand_buffer(void)
 {
     {
-        StringBuilder sb1 = sb_create(0);
+        YacStringBuilder sb1 = YacStringBuilderCreate(0);
 
-        sb_expand_buffer(&sb1, 4);
+        YacStringBuilderExpandBuffer(&sb1, 4);
 
         // printf("len: %zd\n", sb1.len);
         // printf("capacity: %zd\n", sb1.capacity);
         // len: 0
-        // capacity: 8 (value of DA_INIT_CAP)
+        // capacity: 8 (value of YAC_DYNAMIC_ARRAY_INIT_CAP)
 
-        sb_clear_and_free(sb1);
+        YacStringBuilderClearAndFree(sb1);
     }
     {
-        StringBuilder sb1 = sb_create(0);
+        YacStringBuilder sb1 = YacStringBuilderCreate(0);
 
-        sb_expand_buffer(&sb1, 40);
+        YacStringBuilderExpandBuffer(&sb1, 40);
 
         // printf("len: %zd\n", sb1.len);
         // printf("capacity: %zd\n", sb1.capacity);
         // len: 0
-        // capacity: 64 (DA_GROW_FACTOR = 2)
+        // capacity: 64 (YAC_DYNAMIC_ARRAY_GROW_FACTOR = 2)
 
-        sb_clear_and_free(sb1);
+        YacStringBuilderClearAndFree(sb1);
     }
 }
 
-void test_sb_append_rune(void)
+void test_append_rune(void)
 {
-    StringBuilder sb1 = sb_create(0);
+    YacStringBuilder sb1 = YacStringBuilderCreate(0);
 
     for (int rune = 65; rune < 65 + 10; ++rune) {
-        sb_append_rune(&sb1, rune);
+        YacStringBuilderAppendRune(&sb1, rune);
     }
-    // printf(sb_farg "\n", sb_expand(sb1));
+    // printf(YacStringBuilderFarg "\n", YacStringBuilderExpand(sb1));
     // "ABCDEFGHIJ"
 
-    sb_clear_and_free(sb1);
+    YacStringBuilderClearAndFree(sb1);
 }
 
-void test_sb_append_sv(void)
+void test_append_sv(void)
 {
-    StringBuilder sb1 = sb_create(0);
+    YacStringBuilder sb1 = YacStringBuilderCreate(0);
 
-    StringView sv1 = sv_from_cstr("year");
-    StringView sv2 = sv_from_cstr("month");
-    StringView sv3 = sv_from_cstr("week");
+    YacStringView sv1 = YacStringViewFromCstr("year");
+    YacStringView sv2 = YacStringViewFromCstr("month");
+    YacStringView sv3 = YacStringViewFromCstr("week");
 
-    sb_append_sv(&sb1, &sv1);
-    sb_append_rune(&sb1, ' ');
-    sb_append_sv(&sb1, &sv2);
-    sb_append_rune(&sb1, ' ');
-    sb_append_sv(&sb1, &sv3);
+    YacStringBuilderAppendStringView(&sb1, &sv1);
+    YacStringBuilderAppendRune(&sb1, ' ');
+    YacStringBuilderAppendStringView(&sb1, &sv2);
+    YacStringBuilderAppendRune(&sb1, ' ');
+    YacStringBuilderAppendStringView(&sb1, &sv3);
 
-    // printf(sb_farg "\n", sb_expand(sb1));
+    // printf(YacStringBuilderFarg "\n", YacStringBuilderExpand(sb1));
     // "year month week"
 
-    sb_clear_and_free(sb1);
+    YacStringBuilderClearAndFree(sb1);
 }
 
-void test_sb_append_cstr(void)
+void test_append_cstr(void)
 {
-    StringBuilder sb1 = sb_create(0);
+    YacStringBuilder sb1 = YacStringBuilderCreate(0);
 
-    sb_append_cstr(&sb1, "year");
-    sb_append_rune(&sb1, ' ');
-    sb_append_cstr(&sb1, "month");
-    sb_append_rune(&sb1, ' ');
-    sb_append_cstr(&sb1, "week");
+    YacStringBuilderAppendCstr(&sb1, "year");
+    YacStringBuilderAppendRune(&sb1, ' ');
+    YacStringBuilderAppendCstr(&sb1, "month");
+    YacStringBuilderAppendRune(&sb1, ' ');
+    YacStringBuilderAppendCstr(&sb1, "week");
 
-    // printf(sb_farg "\n", sb_expand(sb1));
+    // printf(YacStringBuilderFarg "\n", YacStringBuilderExpand(sb1));
     // "year month week"
 
-    sb_clear_and_free(sb1);
+    YacStringBuilderClearAndFree(sb1);
 }
 
-void test_sb_append_sb(void)
+void test_append_sb(void)
 {
-    StringBuilder sb1 = sb_create(0);
-    sb_append_cstr(&sb1, "I'm");
+    YacStringBuilder sb1 = YacStringBuilderCreate(0);
+    YacStringBuilderAppendCstr(&sb1, "I'm");
 
-    StringBuilder sb2 = sb_create(0);
-    sb_append_cstr(&sb2, " Rob");
+    YacStringBuilder sb2 = YacStringBuilderCreate(0);
+    YacStringBuilderAppendCstr(&sb2, " Rob");
 
-    sb_append_sb(&sb1, &sb2);
+    YacStringBuilderAppendStringBuilder(&sb1, &sb2);
 
-    // printf(sb_farg "\n", sb_expand(sb1));
+    // printf(YacStringBuilderFarg "\n", YacStringBuilderExpand(sb1));
     // "I'm Rob"
 
-    // printf(sb_farg "\n", sb_expand(sb2));
+    // printf(YacStringBuilderFarg "\n", YacStringBuilderExpand(sb2));
     // " Rob"
 
-    sb_clear_and_free(sb2);
-    sb_clear_and_free(sb1);
+    YacStringBuilderClearAndFree(sb2);
+    YacStringBuilderClearAndFree(sb1);
 }
 
-void test_sb_get_cstr(void)
+void test_get_cstr(void)
 {
-    StringBuilder sb1 = sb_create(0);
-    sb_append_cstr(&sb1, "Rust");
-    sb_append_cstr(&sb1, " and ");
-    sb_append_cstr(&sb1, "Go");
+    YacStringBuilder sb1 = YacStringBuilderCreate(0);
+    YacStringBuilderAppendCstr(&sb1, "Rust");
+    YacStringBuilderAppendCstr(&sb1, " and ");
+    YacStringBuilderAppendCstr(&sb1, "Go");
 
-    // printf("%s\n", sb_get_cstr(&sb1));
+    // printf("%s\n", YacStringBuilderGetCstr(&sb1));
     // "Rust and Go"
 
-    sb_clear_and_free(sb1);
+    YacStringBuilderClearAndFree(sb1);
 }
 
-void test_sb_appendf(void)
+void test_appendf(void)
 {
-    StringBuilder sb1 = sb_create(0);
-    sb_appendf(&sb1, "%s %s %s", "Rust", "and", "Go");
+    YacStringBuilder sb1 = YacStringBuilderCreate(0);
+    YacStringBuilderAppendFormat(&sb1, "%s %s %s", "Rust", "and", "Go");
 
-    // printf(sb_farg "\n", sb_expand(sb1));
+    // printf(YacStringBuilderFarg "\n", YacStringBuilderExpand(sb1));
     // "Rust and Go"
 
-    sb_clear_and_free(sb1);
+    YacStringBuilderClearAndFree(sb1);
 }
 
 int main(void)
 {
-    test_sb_expand_buffer();
-    test_sb_append_rune();
-    test_sb_append_sv();
-    test_sb_append_cstr();
-    test_sb_append_sb();
-    test_sb_get_cstr();
-    test_sb_appendf();
+    test_expand_buffer();
+    test_append_rune();
+    test_append_sv();
+    test_append_cstr();
+    test_append_sb();
+    test_get_cstr();
+    test_appendf();
 
     return 0;
 }
