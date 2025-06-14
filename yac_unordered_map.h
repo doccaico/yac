@@ -103,7 +103,7 @@ typedef struct _YacUnorderedMap {
 //
 
 // The constructor for YacUnorderedMap.
-YAC_UNORDERED_MAP_API YacUnorderedMap* YacUnorderedMapInit();
+YAC_UNORDERED_MAP_API YacUnorderedMap* YacUnorderedMapInit(void);
 
 // The destructor for YacUnorderedMap.
 YAC_UNORDERED_MAP_API void YacUnorderedMapDeinit(YacUnorderedMap* obj);
@@ -237,7 +237,7 @@ static void YacUnorderedMapReHash_(YacUnorderedMapData* data);
 // Implementation for the exported operations
 //
 
-YAC_UNORDERED_MAP_API YacUnorderedMap* YacUnorderedMapInit()
+YAC_UNORDERED_MAP_API YacUnorderedMap* YacUnorderedMapInit(void)
 {
     YacUnorderedMap* obj = YAC_ORDERED_MAP_MALLOC(sizeof(YacUnorderedMap));
     if (!obj)
