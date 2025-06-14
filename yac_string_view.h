@@ -2,12 +2,12 @@
 #define YAC_STRING_VIEW_H_
 
 
-#include <ctype.h>
-#include <stdbool.h>
-#include <string.h>
+#include <ctype.h> // isspace
+#include <stdbool.h> // bool
+#include <string.h> // strlen, strchr, strstr, strncmp, strnicmp(_strnicmp)
 
 #ifndef YAC_STRING_VIEW_ASSERT
-#include <assert.h>
+#include <assert.h> // assert
 #define YAC_STRING_VIEW_ASSERT assert
 #endif // YAC_STRING_VIEW_ASSERT
 

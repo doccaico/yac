@@ -2,14 +2,13 @@
 #define YAC_STRING_BUILDER_H_
 
 
-#include <assert.h>
-#include <stdarg.h>
-#include <stdio.h>
+#include <stdarg.h> // va_list
+#include <stdio.h> // vsnprintf
 
 #include "./yac_dynamic_array.h"
 
 #ifndef YAC_STRING_BUILDER_ASSERT
-#include <assert.h>
+#include <assert.h> // assert
 #define YAC_STRING_BUILDER_ASSERT assert
 #endif // YAC_STRING_BUILDER_ASSERT
 
