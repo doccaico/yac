@@ -1,6 +1,9 @@
 // The MIT License (MIT)
+//
 // Original work Copyright (C) 2016 ZongXian Shen <andy.zsshen@gmail.com>
+//   :: https://github.com/ZSShen/C-Common-Data-Structures
 // Modified work Copyright (C) 2025 Doccaico
+//   :: https://github.com/doccaico/yac
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
