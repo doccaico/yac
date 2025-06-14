@@ -31,10 +31,10 @@ typedef struct {
 
 #define YacStringViewFromCstr(str) ((YacStringView){.begin = str, .len = strlen(str)})
 
-#define YacStringViewFromCstrSlice(str, offset, len_)                 \
+#define YacStringViewFromCstrSlice(str, offset, len_)            \
     ((YacStringView){.begin = (str) + (offset), .len = (len_)})
 
-#define YacStringViewFromConstant(c)                               \
+#define YacStringViewFromConstant(c)                         \
     ((YacStringView){.begin = (c), .len = sizeof((c)) - 1})
 
 // Need #include "yac_dynamic_array.h" and "yac_string_builder.h"
@@ -44,7 +44,7 @@ typedef struct {
 
 #define YacStringViewExpand(sv) (int)(sv).len, (sv).begin
 
-#define YacStringViewSlice(sv, offset, len_)                      \
+#define YacStringViewSlice(sv, offset, len_)                    \
     (YacStringViewFromCstrSlice((sv).begin, (offset), (len_)))
 
 #define YacStringViewAdvance(sv) (++(sv).begin, --(sv).len)
