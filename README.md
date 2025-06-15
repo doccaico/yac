@@ -1,5 +1,7 @@
 ## YAC
 
+Only tested on Windows (cl.exe).
+
 | Role | Header |
 | - | - |
 | Dynamic Array | [yac_dynamic_array.h](/yac_dynamic_array.h) |
