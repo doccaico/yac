@@ -5,6 +5,7 @@ Only tested on Windows (cl.exe).
 | Role | Header |
 | - | - |
 | Dynamic Array | [yac_dynamic_array.h](/yac_dynamic_array.h) |
+| Deque | [yac_deque.h](/yac_deque.h) |
 | Map (Ordered) | [yac_ordered_map.h](/yac_ordered_map.h) |
 | Map (Unordered) | [yac_unordered_map.h](/yac_unordered_map.h) |
 | String View | [yac_string_view.h](/yac_string_view.h) |
