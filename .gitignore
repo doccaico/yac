@@ -1,2 +1,5 @@
-*.obj
+tests/*.lib
 *.exe
+*.exp
+*.obj
+*.pdb
