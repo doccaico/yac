@@ -6,6 +6,9 @@
 #define YAC_DEQUE_IMPLEMENTATION
 #include "../yac_deque.h"
 
+// See more information.
+// https://github.com/KaisenAmin/c_std/tree/main/deque
+
 void test_init_deinit(void)
 {
     YacDeque* deque = YacDequeInit(sizeof(int));
