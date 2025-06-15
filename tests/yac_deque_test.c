@@ -66,7 +66,6 @@ int main(void)
     test_init_deinit();
     test_push_pop_on_stack();
     test_push_pop_on_heap();
-    test_push_pop_on_heap();
 
     return 0;
 }
