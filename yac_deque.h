@@ -72,7 +72,7 @@ YAC_DEQUE_API size_t YacDequeMaxSize(const YacDeque* deque);
 
 // Additional YacDeque Functions
 YAC_DEQUE_API void YacDequePushFront(YacDeque* deque, void* item);
-YAC_DEQUE_API void YacDequePushBack(YacDeque* deque, const void* item);
+YAC_DEQUE_API void YacDequePushBack(YacDeque* deque, void* item);
 YAC_DEQUE_API void YacDequePopFront(YacDeque* deque);
 YAC_DEQUE_API void YacDequePopBack(YacDeque* deque);
 YAC_DEQUE_API void YacDequeShrinkToFit(YacDeque* deque);
@@ -281,7 +281,7 @@ YAC_DEQUE_API void YacDequePushFront(YacDeque* deque, void* item)
 //
 // @param deque Pointer to the deque.
 // @param item Pointer to the item to be inserted.
-YAC_DEQUE_API void YacDequePushBack(YacDeque* deque, const void* item)
+YAC_DEQUE_API void YacDequePushBack(YacDeque* deque, void* item)
 {
     if (!deque) {
         return;
@@ -313,6 +313,8 @@ YAC_DEQUE_API void YacDequePushBack(YacDeque* deque, const void* item)
     }
 
     memcpy(newItem, item, deque->itemSize);
+
+    YAC_DEQUE_FREE(item);
 
     // Insert the new item at the back
     deque->backIndex++;
@@ -416,8 +418,7 @@ YAC_DEQUE_API void YacDequePopBack(YacDeque* deque)
     // Normal decrement
     if (deque->backIndex > 0) {
         deque->backIndex--;
-    }
-    else if (deque->blockCount > 1) {
+    } else if (deque->blockCount > 1) {
         YAC_DEQUE_FREE(deque->blocks[deque->blockCount - 1]);
         deque->blockCount--;
         deque->backIndex = deque->blockSize - 1;
